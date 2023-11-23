@@ -1,0 +1,11 @@
+Protokoll:
+
+GUI-Framework: Entscheidung ist auf PyQT gefallen
+GUI-Features: Erst einmal nur die notwendigsten Features implemntieren - Mohammed nimmt bis nächste Woche Priorisierung vor
+Kurse nach Jahre und Monate und Tage filtern
+Öffnungs, Schließkurs sowie Tageskurs anzeigen
+Analyse-Tool: SMA sollte unbedingt implementiert werden. Weitere Analysemthoden können noch angedacht werden
+Währungsumrechner: Zusätzliche API für den aktuellen Währungskurs
+Nächste Woche: Grobe Architektur entwickeln, um Schnittstellen und Abläufe zu definieren
+ToDo bis nächste Woche: Andere Stock-Repos schauen hinsichtlich Aufbau und Struktur
+Arbeitspakete werden neu vergeben, da manche Arbeitspakete weniger aufwendig sind als gedacht
