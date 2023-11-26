@@ -3,3 +3,5 @@ pyqt5-tools
 matplotlib
 yfinance
 pandas
+sqlite3
+
