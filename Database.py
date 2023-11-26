@@ -44,7 +44,7 @@ class StockDatabase:
 
     def insert_link(self, date, link, stock_name):
         self.cur.execute(
-            "INSERT INTO links VALUES (NULL, ?, ?, ?)", (date, link, stock_name))
+            "INSERT OR IGNORE INTO links VALUES (NULL, ?, ?, ?)", (date, link, stock_name))
         self.conn.commit()
 
     def view(self):
