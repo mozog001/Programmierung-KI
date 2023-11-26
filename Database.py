@@ -19,6 +19,8 @@ class StockDatabase:
         Die Klasse enthält folgende Methoden:
 
         1. insert_link: Fügt einen Link in die Tabelle links ein
+        2. insert_stockdata: Fügt die historischen Daten einer Aktie in die Tabelle stock_data ein
+        3. insert_symbol: Fügt die Symbole der Aktien in die Tabelle symbols ein
 
         In Pycharm kann die Datenbank mit dem Plugin "DB Browser for SQLite" betrachtet werden.
     """
@@ -47,6 +49,15 @@ class StockDatabase:
             "INSERT OR IGNORE INTO links VALUES (NULL, ?, ?, ?)", (date, link, stock_name))
         self.conn.commit()
 
+    def insert_stockdata(self, date, open, high, low, close, volume, stock_long_name, stock_currency, stock_industry, stock_headquarter):
+        self.cur.execute(
+            "INSERT OR IGNORE INTO stock_data VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (date, open, high, low, close, volume, stock_long_name, stock_currency, stock_industry, stock_headquarter))
+        self.conn.commit()
+
+    def insert_symbol(self, symbol, name, country, ipo_year, sector, industry):
+        self.cur.execute(
+            "INSERT OR IGNORE INTO symbols VALUES (NULL, ?, ?, ?, ?, ?, ?)", (symbol, name, country, ipo_year, sector, industry))
+        self.conn.commit()
     def view(self):
         self.cur.execute("SELECT * FROM book")
         rows = self.cur.fetchall()
