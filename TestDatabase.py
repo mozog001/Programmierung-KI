@@ -12,7 +12,7 @@ for line in fhandle:
     symbol, name, country, ipo_year, sector, industry = line.split(";")
     db.insert_symbol(symbol, name, country, ipo_year, sector, industry)
 
-symbollist = db.search_symbol("AAP")
+symbollist = db.search_symbol("Apple")
 print(symbollist)
 db.conn.close()
 

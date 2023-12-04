@@ -60,11 +60,11 @@ class StockDatabase:
         self.conn.commit()
 
 
-    def search_symbol(self, symbol=""):
+    def search_symbol(self, name=""):
 
         self.cur.execute(
-            "SELECT * FROM symbols WHERE symbol like ?", [str("%"+symbol+"%")])
-        print(str(symbol+"%"))
+            "SELECT * FROM symbols WHERE name like ?", [str("%"+name+"%")])
+
         rows = self.cur.fetchall()
         return rows
 
