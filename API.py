@@ -22,8 +22,8 @@ class StockData:
     def get_stock_data(self, start, end):
         self.start = start
         self.end = end
-        data = self.stock.history(start=start, end=end, actions=None)  # Startwert sollte aus der Datenbank kommen
-        return data  # End Wert über GUI oder aktuelle Datum
+        data = self.stock.history(start=start, end=end, actions=None)  
+        return data 
 
     def get_stock_info(self):  # Zuordnung der Aktienkurse zum Unternehmen sowie allgemeine Infos
         self.long_name = self.stock.info["longName"]
@@ -36,7 +36,7 @@ class StockData:
         return self.long_name, self.currency, self.industry, self.headquarter
 
     def get_stock_news(self, date):  # Links in GUI anzeigen mit Vorschau? Doppelte Links in Datenbank löschen
-        self.news = self.stock.news  # Überprüfen in Datenbank, dass Link nicht doppelt vorkommt
+        self.news = self.stock.news  
         self.long_name = self.stock.info["longName"]
         self.stock_news_links = [link["link"] for link in self.news]
         self.news_date = [date] * len(self.stock_news_links)
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     stock_name = "AAPL"
     start_date = "2020-10-01"
     end_date = "2023-12-04"
-    with open("symbols.csv") as file:  # csv aus https://www.nasdaq.com/market-activity/stocks/screener exportiert
+    with open("symbols.csv") as file:  # csv aus https://www.nasdaq.com/market-activity/stocks/screener exportiert 23.11.2023
         symbols = file.read()  # csv als Vorschlagewerte in GUI einbauen
     if stock_name not in symbols:
         raise ValueError("Aktien-Symbol falsch oder nicht in Liste vorhanden.")
