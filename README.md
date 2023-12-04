@@ -1,3 +1,0 @@
-# Programmierung-KI
-
-Hallo Welt!
