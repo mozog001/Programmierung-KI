@@ -9,8 +9,8 @@ def get_stocks_list(stock_symbol, start_date, end_date):
     # Turn data into a list of tuples [(date timestamp, open price, close price)]
     data_list = []
     for index_timestamp, row in stock_data.iterrows():
-        timestamp_to_local_str = index_timestamp.tz_convert('Europe/Berlin').strftime('%Y-%m-%d %H:%M:%S%z')
-        data_list.append((timestamp_to_local_str, row["Open"], row["Close"]))
+        timestamp_to_str = index_timestamp.strftime('%Y-%m-%d %H:%M:%S%z')
+        data_list.append((timestamp_to_str, row["Open"], row["Close"]))
     return data_list
 
 print(get_stocks_list("AAPL", "2020-01-01", "2020-01-10"))
