@@ -3,3 +3,4 @@ pyqt5-tools
 matplotlib
 yfinance
 pandas
+pyqtgraph
