@@ -4,6 +4,7 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import * 
 from PyQt5.QtCore import * 
 import pyqtgraph as pg
+import Database as db
 import sys 
 
 ## Klasse zur Initialisierung und Beschreibung des GUI   
@@ -26,6 +27,7 @@ class GUI_Window(QtWidgets.QMainWindow):
         
     def GUI_components(self):
            
+        
         # QLineEdit Objekt für die Such-Textbox erstellen und Eisntellungen vornehmen
         self.textbox = QLineEdit("Suchen ...", self)
         self.textbox.setGeometry(10, 10, 150, 40)
@@ -101,10 +103,24 @@ class GUI_Window(QtWidgets.QMainWindow):
         #Aktion ausführen, wenn in der Textbox Enter gedrückt wird
         self.textbox.returnPressed.connect(lambda: self.textBox_Action())
         
+        #Instanz der Datenbank aufrufen
+        self.StockDB = db.StockDatabase()
+        
     #Methode für Aktionen in der Such-Textbox
     def textBox_Action(self):
         value = self.textbox.text()
-        self.err_label.setText(value)
+        symbolList = self.StockDB.search_symbol(value)
+        
+        self.StockNames = [symbolName[2] for symbolName in symbolList]
+        
+        print(self.StockNames)
+        
+        #Auto-Fertigstellung zu einem QLineEdit hinzufügen
+        self.completer = QCompleter(self.StockNames)
+        self.textbox.setCompleter(self.completer)
+            
+        if not symbolList:
+            self.err_label.setText("Falsche Eingabe")
             
     def show_Window(self, app):
         sys.exit(app.exec())
