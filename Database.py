@@ -68,7 +68,12 @@ class StockDatabase:
         rows = self.cur.fetchall()
         return rows
 
-
+    def get_all_symbols(self):
+        self.cur.execute(
+            "SELECT * FROM symbols")
+        
+        rows = self.cur.fetchall()
+        return rows
 
     def __del__(self):
         self.conn.close()

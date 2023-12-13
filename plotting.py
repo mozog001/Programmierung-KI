@@ -21,15 +21,13 @@ class GUI_Window(QtWidgets.QMainWindow):
   
         # GUI Komponenten aufrufen
         self.GUI_components() 
-  
-        # GUI Widgets zeigen
-        self.show() 
         
     def GUI_components(self):
-           
+
+        self.StockNames = list()
         
         # QLineEdit Objekt für die Such-Textbox erstellen und Eisntellungen vornehmen
-        self.textbox = QLineEdit("Suchen ...", self)
+        self.textbox = QLineEdit("Suchen...", self)
         self.textbox.setGeometry(10, 10, 150, 40)
         
         #Label für die Error msg, falls in der Textbox etwas falsche eingegeben wurde
@@ -103,26 +101,42 @@ class GUI_Window(QtWidgets.QMainWindow):
         #Aktion ausführen, wenn in der Textbox Enter gedrückt wird
         self.textbox.returnPressed.connect(lambda: self.textBox_Action())
         
-        #Instanz der Datenbank aufrufen
-        self.StockDB = db.StockDatabase()
-        
     #Methode für Aktionen in der Such-Textbox
     def textBox_Action(self):
         value = self.textbox.text()
-        symbolList = self.StockDB.search_symbol(value)
         
-        self.StockNames = [symbolName[2] for symbolName in symbolList]
+        self.textbox.setText('Suchen...')
+ 
+        if value in self.StockNames:
+            self.err_label.setText(value)
+        else:
+            self.err_label.setText('Falsche Eingabe')
+            
+        self.symbol_List = self.StockDB.search_symbol(value)
+        print(self.symbol_List)
+        self.SymbolNames = [SymbolName[1] for SymbolName in self.symbol_List]
+        print(self.SymbolNames)
         
-        print(self.StockNames)
+        self.symbol_List = [] #Liste leeren aufgrund von Speicherverbrauch
+
+    def text_completer(self):
         
-        #Auto-Fertigstellung zu einem QLineEdit hinzufügen
+        self.StockDB = db.StockDatabase()
+        
+        self.StockList = self.StockDB.get_all_symbols()
+        self.StockNames = [StockName[2] for StockName in self.StockList]
+        print('Size of StockNames_list',sys.getsizeof(self.StockNames))
+        
+        self.StockList = [] #Liste leeren aufgrund von Speicherverbrauch
+        
         self.completer = QCompleter(self.StockNames)
         self.textbox.setCompleter(self.completer)
-            
-        if not symbolList:
-            self.err_label.setText("Falsche Eingabe")
+        
+        #print(self.cleared_StockNames)
             
     def show_Window(self, app):
+        # GUI Widgets zeigen
+        self.show() 
         sys.exit(app.exec())
 
 ## Klasse zur Initialisierung und Beschreibung des Graphen       
@@ -134,3 +148,9 @@ class Plt_Graph(QtWidgets.QWidget):
         self.plotWidget = pg.PlotWidget()
         lay = QtWidgets.QVBoxLayout(self)
         lay.addWidget(self.plotWidget)
+        
+
+        
+        
+        
+        
