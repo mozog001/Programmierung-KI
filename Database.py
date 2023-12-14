@@ -77,9 +77,9 @@ class StockDatabase:
         return rows
     # Liefert die historischen Daten einer Aktie aus der Tabelle stock_data, es wird eine Liste mit den gefundenen Daten zurückgegeben
     # Die Daten werden nach Datum sortiert ausgegeben
-    def getStockHistoryData(self, stockName, beginDate, endDate):
+    def getStockHistoryData(self, symbol, beginDate, endDate):
         self.cur.execute(
-            "SELECT * FROM stock_data WHERE stock_long_name = ? and  Date >= ? and Date <= ? ORDER BY Date ASC", [stockName, beginDate, endDate])
+            "SELECT * FROM stock_data WHERE symbol = ? and  Date >= ? and Date <= ? ORDER BY Date ASC", [symbol, beginDate, endDate])
 
         rows = self.cur.fetchall()
         return rows
