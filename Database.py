@@ -21,6 +21,8 @@ class StockDatabase:
         1. insert_link: Fügt einen Link in die Tabelle links ein
         2. insert_stockdata: Fügt die historischen Daten einer Aktie in die Tabelle stock_data ein
         3. insert_symbol: Fügt die Symbole der Aktien in die Tabelle symbols ein
+        4. search_symbol: Sucht nach einem Symbol in der Tabelle symbols
+        5. getStockHistoryData: Liefert die historischen Daten einer Aktie aus der Tabelle stock_data
 
         In Pycharm kann die Datenbank mit dem Plugin "DB Browser for SQLite" betrachtet werden.
     """
@@ -35,8 +37,8 @@ class StockDatabase:
 
         self.cur.execute(
             "CREATE TABLE IF NOT EXISTS stock_data (id INTEGER PRIMARY KEY, date TEXT, open REAL, high REAL, \
-            low REAL,close REAL, volume INT, stock_long_name TEXT UNIQUE, stock_currency TEXT, stock_industry TEXT ,\
-            stock_headquarter TEXT)")
+            low REAL,close REAL, volume INT, symbol TEXT ,stock_long_name TEXT , stock_currency TEXT, stock_industry TEXT ,\
+            stock_headquarter TEXT, UNIQUE(date, stock_long_name))")
 
         self.cur.execute(
             "CREATE TABLE IF NOT EXISTS symbols (id INTEGER PRIMARY KEY, symbol TEXT UNIQUE, name TEXT UNIQUE, \
@@ -44,26 +46,40 @@ class StockDatabase:
 
         self.conn.commit()
 
+    # Fügt einen Link in die Tabelle links ein
     def insert_link(self, date, link, stock_name):
         self.cur.execute(
             "INSERT OR IGNORE INTO links VALUES (NULL, ?, ?, ?)", (date, link, stock_name))
         self.conn.commit()
 
-    def insert_stockdata(self, date, open, high, low, close, volume, stock_long_name, stock_currency, stock_industry, stock_headquarter):
-        self.cur.execute(
-            "INSERT OR IGNORE INTO stock_data VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (date, open, high, low, close, volume, stock_long_name, stock_currency, stock_industry, stock_headquarter))
-        self.conn.commit()
+    # Fügt die historischen Daten einer Aktie in die Tabelle stock_data ein
+    def insert_stockdata(self, data):
+        for DataDate, dataValues in data.items():
+            self.cur.execute(
+                "INSERT OR IGNORE INTO stock_data VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (
+                    str(DataDate), dataValues['Open'], dataValues['High'], dataValues['Low'], dataValues['Close'], dataValues['Volume'], dataValues['symbol'], dataValues['stock_long_name'],
+                    dataValues['stock_currency'], dataValues['stock_industry'], dataValues['stock_headquarter']))
+            self.conn.commit()
 
+    # Fügt die Symbole der Aktien in die Tabelle symbols ein
     def insert_symbol(self, symbol, name, country, ipo_year, sector, industry):
         self.cur.execute(
             "INSERT OR IGNORE INTO symbols VALUES (NULL, ?, ?, ?, ?, ?, ?)", (symbol, name, country, ipo_year, sector, industry))
         self.conn.commit()
 
-
+    # Sucht nach einem Symbol in der Tabelle symbols, es wird eine Liste mit den gefundenen Symbolen zurückgegeben
     def search_symbol(self, name=""):
 
         self.cur.execute(
             "SELECT * FROM symbols WHERE name like ?", [str("%"+name+"%")])
+
+        rows = self.cur.fetchall()
+        return rows
+    # Liefert die historischen Daten einer Aktie aus der Tabelle stock_data, es wird eine Liste mit den gefundenen Daten zurückgegeben
+    # Die Daten werden nach Datum sortiert ausgegeben
+    def getStockHistoryData(self, stockName, beginDate, endDate):
+        self.cur.execute(
+            "SELECT * FROM stock_data WHERE stock_long_name = ? and  Date >= ? and Date <= ? ORDER BY Date ASC", [stockName, beginDate, endDate])
 
         rows = self.cur.fetchall()
         return rows
