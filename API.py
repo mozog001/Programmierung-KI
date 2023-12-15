@@ -78,6 +78,5 @@ if __name__ == "__main__":
     stock_data_base = stock.get_data(stock_data, stock_long_name, stock_currency, stock_industry, stock_headquarter)
     stockDataDict = stock_data_base.to_dict('index')
     stockDB.insert_stockdata(stockDataDict)
-
     #  stock_data_base.to_csv("stock_data.csv")  # Datenbank Tabelle 1
     #  stock_news.to_csv("links.csv", index=False)  # Datenbank Tabelle 2 (Verknüpfung über Unternehmensnamen)
