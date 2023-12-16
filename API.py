@@ -2,6 +2,7 @@ import yfinance as yf  # https://pypi.org/project/yfinance/
 import pandas as pd
 import Database as StockDB
 
+
 class StockData:
     def __init__(self, stockname):
         self.stockname = stockname
@@ -26,7 +27,7 @@ class StockData:
         data = self.stock.history(start=start, end=end, actions=None)
         return data 
 
-    def get_stock_info(self):  # Zuordnung der Aktienkurse zum Unternehmen sowie allgemeine Infos
+    def get_stock_info(self):  # Zuordnung der Aktienkurse zum Unternehmen sowie allgemeine Informationen
         self.long_name = self.stock.info["longName"]
         self.currency = self.stock.info["currency"]
         self.industry = f'{self.stock.info["industry"]} {self.stock.info["sector"]}'
@@ -64,13 +65,13 @@ if __name__ == "__main__":
 
     #  Initialisierung der Datenbank
     stockDB = StockDB.StockDatabase()
-    stock_name = "AAPL"
-    start_date = "2023-12-01"
+    stock_name = "TYEKF"
+    start_date = "2019-12-01"
     end_date = "2023-12-04"
-    with open("symbols.csv") as file:  # csv aus https://www.nasdaq.com/market-activity/stocks/screener exportiert 23.11.2023
-        symbols = file.read()  # csv als Vorschlagewerte in GUI einbauen
-    if stock_name not in symbols:
-        raise ValueError("Aktien-Symbol falsch oder nicht in Liste vorhanden.")
+    #  with open("symbols.csv") as file:  # csv aus https://www.nasdaq.com/market-activity/stocks/screener (23.11.2023)
+    #      symbols = file.read()  # csv als Vorschläge in GUI einbauen
+    #  if stock_name not in symbols:
+    #      raise ValueError("Aktien-Symbol falsch oder nicht in Liste vorhanden.")
     stock = StockData(stock_name)
     stock_data = stock.get_stock_data(start_date, end_date)
     stock_long_name, stock_currency, stock_industry, stock_headquarter = stock.get_stock_info()
