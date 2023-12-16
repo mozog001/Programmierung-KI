@@ -33,9 +33,7 @@ class StockDatabase:
         # Stellt eine Verbindung zur lokalen Datenbank "StockDatabase.db her
         self.conn = sqlite3.connect('StockDatabase.db')
         self.cur = self.conn.cursor()
-        # Erstelle notwendige Tabellen "Datenmodellierung" --> links, stock_data, symbols
-        self.cur.execute(
-            "CREATE TABLE IF NOT EXISTS links (id INTEGER PRIMARY KEY, date TEXT, link TEXT, stock_name TEXT UNIQUE)")
+        # Erstelle notwendige Tabellen "Datenmodellierung" --> stock_data, symbols
 
         self.cur.execute(
             "CREATE TABLE IF NOT EXISTS stock_data (id INTEGER PRIMARY KEY, date TEXT, open REAL, high REAL, \
@@ -48,11 +46,6 @@ class StockDatabase:
 
         self.conn.commit()
 
-    # Fügt einen Link in die Tabelle links ein
-    def insert_link(self, date, link, stock_name):
-        self.cur.execute(
-            "INSERT OR IGNORE INTO links VALUES (NULL, ?, ?, ?)", (date, link, stock_name))
-        self.conn.commit()
 
     # Fügt die historischen Daten einer Aktie in die Tabelle stock_data ein
     def insert_stockdata(self, data):
