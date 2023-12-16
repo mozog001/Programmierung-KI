@@ -25,6 +25,9 @@ class StockData:
         self.start = start
         self.end = end
         data = self.stock.history(start=start, end=end, actions=None)
+        data = data.reset_index()
+        data['date'] = data['Date'].dt.date
+        data = data.set_index("Date")
         return data 
 
     def get_stock_info(self):  # Zuordnung der Aktienkurse zum Unternehmen sowie allgemeine Informationen
@@ -58,6 +61,7 @@ class StockData:
         self.s_data["stock_currency"] = currency
         self.s_data["stock_industry"] = industry
         self.s_data["stock_headquarter"] = headquarter
+        #data[['date', 'time']] = data['Date'].str.split(' ', expand=True)
         return self.s_data
 
 
@@ -66,7 +70,7 @@ if __name__ == "__main__":
     #  Initialisierung der Datenbank
     stockDB = StockDB.StockDatabase()
     stock_name = "TYEKF"
-    start_date = "2019-12-01"
+    start_date = "2022-12-01"
     end_date = "2023-12-04"
     #  with open("symbols.csv") as file:  # csv aus https://www.nasdaq.com/market-activity/stocks/screener (23.11.2023)
     #      symbols = file.read()  # csv als Vorschläge in GUI einbauen
