@@ -18,11 +18,13 @@ class StockDatabase:
         Die Datenbank wird mit der Klasse StockDatabase erstellt.
         Die Klasse enthält folgende Methoden:
 
-        1. insert_link: Fügt einen Link in die Tabelle links ein
-        2. insert_stockdata: Fügt die historischen Daten einer Aktie in die Tabelle stock_data ein
-        3. insert_symbol: Fügt die Symbole der Aktien in die Tabelle symbols ein
-        4. search_symbol: Sucht nach einem Symbol in der Tabelle symbols
-        5. getStockHistoryData: Liefert die historischen Daten einer Aktie aus der Tabelle stock_data
+
+        1. insert_stockdata: Fügt die historischen Daten einer Aktie in die Tabelle stock_data ein
+        2. insert_symbol: Fügt die Symbole der Aktien in die Tabelle symbols ein
+        3. search_symbol: Sucht nach einem Symbol in der Tabelle symbols
+        4. get_all_symbols: Liefert alle Symbole aus der Tabelle symbols
+        4. getStockHistoryData: Liefert die historischen Daten einer Aktie aus der Tabelle stock_data
+        5. getStockCloseData: Liefert die historischen Schlusskurse einer Aktie aus der Tabelle stock_data
 
         In Pycharm kann die Datenbank mit dem Plugin "DB Browser for SQLite" betrachtet werden.
     """
