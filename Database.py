@@ -61,6 +61,7 @@ class StockDatabase:
                     dataValues['stock_currency'], dataValues['stock_industry'], dataValues['stock_headquarter']))
             self.conn.commit()
 
+
     # Fügt die Symbole der Aktien in die Tabelle symbols ein
     def insert_symbol(self, symbol, name, country, ipo_year, sector, industry):
         self.cur.execute(
