@@ -20,6 +20,14 @@ stockHistoryData = db.getStockHistoryData("AAPL", beginDate="2023-12-01 00:00:00
 for row in stockHistoryData:
     print(row, end="\n")
 print(len(stockHistoryData))
+
+
+stockCloseData = db.getStockCloseData("TYEKF")
+
+
+print(type(stockCloseData))
+for row in stockCloseData:
+    print(row, end="\n")
 db.conn.close()
 
 
