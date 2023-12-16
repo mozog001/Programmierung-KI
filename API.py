@@ -26,7 +26,8 @@ class StockData:
         self.end = end
         data = self.stock.history(start=start, end=end, actions=None)
         data = data.reset_index()
-        data['Date'] = data['Date'].dt.date
+        data['date'] = data['Date'].dt.date
+        data = data.set_index("Date")
         return data 
 
     def get_stock_info(self):  # Zuordnung der Aktienkurse zum Unternehmen sowie allgemeine Informationen
