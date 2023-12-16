@@ -63,24 +63,40 @@ class StockDatabase:
 
 
     # Fügt die Symbole der Aktien in die Tabelle symbols ein
-    def insert_symbol(self, symbol, name, country, ipo_year, sector, industry):
+    def insert_symbol__(self, symbol, name, country, ipo_year, sector, industry):
         self.cur.execute(
-            "INSERT OR IGNORE INTO symbols VALUES (NULL, ?, ?, ?, ?, ?, ?)", (symbol, name, country, ipo_year, sector, industry))
+             "INSERT OR IGNORE INTO symbols VALUES (NULL, ?, ?, ?, ?, ?, ?)",(symbol, name, country, ipo_year, sector, industry))
         self.conn.commit()
+    def insert_symbol(self, data):
+        for dataValues in data:
+            self.cur.execute(
+                "INSERT OR IGNORE INTO symbols VALUES (NULL, ?, ?, ?, ?, ?, ?)", (
+                    dataValues['symbol'], dataValues['name'], dataValues['country'], dataValues['ipo_year'], dataValues['sector'], dataValues['industry']))
+            self.conn.commit()
+
+
+
+    # Liefert die historischen Daten einer Aktie aus der Tabelle stock_data, es wird eine Liste mit den gefundenen Daten zurückgegeben
+    # Die Daten werden nach Datum sortiert ausgegeben
+    def getStockHistoryData(self, symbol, beginDate, endDate):
+        self.cur.execute(
+            "SELECT * FROM stock_data WHERE symbol = ? and  Date >= ? and Date <= ? ORDER BY Date ASC", [symbol, beginDate, endDate])
+
+        rows = self.cur.fetchall()
+        return rows
+
+    def getStockCloseData(self, symbol):
+        self.cur.execute(
+            "SELECT Date, close FROM stock_data WHERE symbol = ? ORDER BY Date ASC", [symbol])
+
+        rows = self.cur.fetchall()
+        return rows
 
     # Sucht nach einem Symbol in der Tabelle symbols, es wird eine Liste mit den gefundenen Symbolen zurückgegeben
     def search_symbol(self, name=""):
 
         self.cur.execute(
             "SELECT * FROM symbols WHERE name like ?", [str("%"+name+"%")])
-
-        rows = self.cur.fetchall()
-        return rows
-    # Liefert die historischen Daten einer Aktie aus der Tabelle stock_data, es wird eine Liste mit den gefundenen Daten zurückgegeben
-    # Die Daten werden nach Datum sortiert ausgegeben
-    def getStockHistoryData(self, symbol, beginDate, endDate):
-        self.cur.execute(
-            "SELECT * FROM stock_data WHERE symbol = ? and  Date >= ? and Date <= ? ORDER BY Date ASC", [symbol, beginDate, endDate])
 
         rows = self.cur.fetchall()
         return rows
