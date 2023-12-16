@@ -16,7 +16,7 @@ for line in fhandle:
 symbollist = db.search_symbol("Apple")
 #print(symbollist)
 
-stockHistoryData = db.getStockHistoryData("TEST", beginDate="2020-10-26 00:00:00-04:00", endDate="2020-11-09 00:00:00-05:00")
+stockHistoryData = db.getStockHistoryData("AAPL", beginDate="2020-10-26 00:00:00-04:00", endDate="2020-11-09 00:00:00-05:00")
 for row in stockHistoryData:
     print(row, end="\n")
 print(len(stockHistoryData))
