@@ -22,6 +22,7 @@ class StockData:
         self.s_data = None
         self.stockDB = StockDB.StockDatabase()
         self.symbols = pd.read_csv("symbols.csv", sep=";")
+        self.symbols = self.symbols.rename(columns=str.lower)
         self.symbols = self.symbols.to_dict('index')
         stockDB.insert_symbol(self.symbols)
 
