@@ -5,6 +5,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import * 
 import pyqtgraph as pg
 import Database as db
+import graph_utils as grut
 import sys 
 
 ## Klasse zur Initialisierung und Beschreibung des GUI   
@@ -36,13 +37,14 @@ class GUI_Window(QtWidgets.QMainWindow):
         self.err_label.setWordWrap(True)
         
         #Buttons für die Auswahl der Öffnuns- und Schließungskurse definieren
-        self.Time_Button_Intra = QPushButton(self)
-        self.Time_Button_Intra.setText("Intraday")
-        self.Time_Button_Intra.move(200,10)
+        #self.Time_Button_Intra = QPushButton(self)
+        #self.Time_Button_Intra.setText("Intraday")
+        #self.Time_Button_Intra.move(200,10)
         
         self.Time_Button_1Week = QPushButton(self)
         self.Time_Button_1Week.setText("1 Woche")
         self.Time_Button_1Week.move(300,10)
+        self.Time_Button_1Week.clicked.connect(self.Time_Button_1Week_Action)
         
         self.Time_Button_1month = QPushButton(self)
         self.Time_Button_1month.setText("1 Monat")
@@ -118,6 +120,12 @@ class GUI_Window(QtWidgets.QMainWindow):
         print(self.SymbolNames)
         
         self.symbol_List = [] #Liste leeren aufgrund von Speicherverbrauch
+        
+    def Time_Button_1Week_Action(self):
+        number_Days = 7
+        Stock_symbol = self.SymbolNames[0]
+        Stock_data = grut.populate_graph(number_Days, Stock_symbol)
+        print(Stock_data)
 
     def text_completer(self):
         

@@ -68,6 +68,6 @@ class DisplayData:
             return f"Error getting stock news: {str(e)}"
 
 display = DisplayData("TYEKF")
-print(display.get_stocks_list("2023-11-28 00:00:00-05:00", "2023-12-30 00:00:00-05:00"))
-print(display.fetch_stocks("2023-11-28 00:00:00-05:00", "2023-12-30 00:00:00-05:00"))
+print(display)
+print(display.get_stocks_list("2023-11-28 00:00:00-05:00", "2023-12-30 00:00:00-05:00"))#print(display.fetch_stocks("2023-11-28 00:00:00-05:00", "2023-12-30 00:00:00-05:00"))
 print(display.get_stock_news("2023-11-28 00:00:00-05:00"))
