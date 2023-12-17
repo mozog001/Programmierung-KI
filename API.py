@@ -73,9 +73,9 @@ if __name__ == "__main__":
 
     #  Initialisierung der Datenbank
     stockDB = StockDB.StockDatabase()
-    stock_name = "TKA.DE"
-    start_date = "2021-12-01"
-    end_date = "2023-12-04"
+    stock_name = "AAPL"
+    start_date = "2015-12-01"
+    end_date = "2016-12-04"
     #  with open("symbols.csv") as file:  # csv aus https://www.nasdaq.com/market-activity/stocks/screener (23.11.2023)
     #      symbols = file.read()  # csv als Vorschläge in GUI einbauen
     #  if stock_name not in symbols:
