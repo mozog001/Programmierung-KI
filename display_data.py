@@ -3,12 +3,12 @@ import Database as db
 from datetime import datetime
 
 class DisplayData:
-    def __init__(self, stock_symbol):
-        self.stock_symbol = stock_symbol
+    def __init__(self):
+        pass
 
-    def fetch_stocks(self, start_date, end_date):
+    def fetch_stocks(self, stock_symbol, start_date, end_date):
         try:
-            data = api.StockData(self.stock_symbol)
+            data = api.StockData(stock_symbol)
 
             #parse dates
             parsed_start_date = datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S%z')
@@ -24,11 +24,11 @@ class DisplayData:
         except Exception as e:
             return f"Error fetching stock data: {str(e)}"
 
-    def get_stocks_list(self, start_date, end_date):
+    def get_stocks_list(self, stock_symbol, start_date, end_date):
         try:
             # Fetch stock data from Database
             test_db = db.StockDatabase()
-            db_data = test_db.getStockHistoryData(self.stock_symbol, start_date, end_date)
+            db_data = test_db.getStockHistoryData(stock_symbol, start_date, end_date)
 
             # Turn DB data into a list of tuples [(date timestamp, open price, close price)]
             stocks = []
@@ -37,28 +37,28 @@ class DisplayData:
 
             # Check if DB data is empty
             if len(stocks) <= 0:
-                fetched_stocks = self.fetch_stocks(start_date, end_date)
+                fetched_stocks = self.fetch_stocks(stock_symbol, start_date, end_date)
                 return fetched_stocks
 
             # Check if fetch_stocks is needed for start_date
             if stocks[0][0] > start_date:
-                fetched_stocks = self.fetch_stocks(start_date, stocks[0][0])
+                fetched_stocks = self.fetch_stocks(stock_symbol, start_date, stocks[0][0])
                 if fetched_stocks:
                     stocks = fetched_stocks + stocks
 
             # Check if fetch_stocks is needed for end_date
             if stocks[-1][0] < end_date:
-                fetched_stocks = self.fetch_stocks(stocks[-1][0], end_date)
+                fetched_stocks = self.fetch_stocks(stock_symbol, stocks[-1][0], end_date)
                 if fetched_stocks:
                     stocks = stocks + fetched_stocks
             return stocks
         except Exception as e:
             return f"Error getting stock list: {str(e)}"
 
-    def get_stock_news(self, date):
+    def get_stock_news(self, stock_symbol, date):
         try:
             # Fetch stock News
-            data = api.StockData(self.stock_symbol)
+            data = api.StockData(stock_symbol)
             stock_news = data.get_stock_news(date)
 
             # Turn data into a list of links [link1, link2, ...]
@@ -67,7 +67,14 @@ class DisplayData:
         except Exception as e:
             return f"Error getting stock news: {str(e)}"
 
-display = DisplayData("TYEKF")
-print(display.get_stocks_list("2023-11-28 00:00:00-05:00", "2023-12-30 00:00:00-05:00"))
-print(display.fetch_stocks("2023-11-28 00:00:00-05:00", "2023-12-30 00:00:00-05:00"))
-print(display.get_stock_news("2023-11-28 00:00:00-05:00"))
+def main():
+    display = DisplayData()
+    stock_symbol = "TYEKF"
+    start_date = "2023-11-28 00:00:00-05:00"
+    end_date = "2023-12-30 00:00:00-05:00"
+    print(display.get_stocks_list(stock_symbol, start_date, end_date))
+    print(display.fetch_stocks(stock_symbol, start_date, end_date))
+    print(display.get_stock_news(stock_symbol, start_date))
+
+if __name__ == "__main__":
+    main()
