@@ -63,10 +63,10 @@ class StockDatabase:
              "INSERT OR IGNORE INTO symbols VALUES (NULL, ?, ?, ?, ?, ?, ?)",(symbol, name, country, ipo_year, sector, industry))
         self.conn.commit()
     def insert_symbol(self, data):
-        for dataValues in data:
+        for dataValues in data.values():
             self.cur.execute(
                 "INSERT OR IGNORE INTO symbols VALUES (NULL, ?, ?, ?, ?, ?, ?)", (
-                    dataValues['symbol'], dataValues['name'], dataValues['country'], dataValues['ipo_year'], dataValues['sector'], dataValues['industry']))
+                    dataValues['Symbol'], dataValues['Name'], dataValues['Country'], dataValues['IPO Year'], dataValues['Sector'], dataValues['Industry']))
             self.conn.commit()
 
 
