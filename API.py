@@ -20,13 +20,17 @@ class StockData:
         self.news_date = None
         self.s_news = None
         self.s_data = None
+        self.stockDB = StockDB.StockDatabase()
+        self.symbols = pd.read_csv("symbols.csv", sep=";")
+        self.symbols = self.symbols.to_dict('index')
+        stockDB.insert_symbol(self.symbols)
 
     def get_stock_data(self, start, end):
         self.start = start
         self.end = end
         data = self.stock.history(start=start, end=end, actions=None)
         data = data.reset_index()
-        data['date'] = data['Date'].dt.date
+        data['Date'] = data['Date'].dt.date
         data = data.set_index("Date")
         return data 
 
@@ -69,8 +73,8 @@ if __name__ == "__main__":
 
     #  Initialisierung der Datenbank
     stockDB = StockDB.StockDatabase()
-    stock_name = "TYEKF"
-    start_date = "2022-12-01"
+    stock_name = "AMZN"
+    start_date = "2016-12-01"
     end_date = "2023-12-04"
     #  with open("symbols.csv") as file:  # csv aus https://www.nasdaq.com/market-activity/stocks/screener (23.11.2023)
     #      symbols = file.read()  # csv als Vorschläge in GUI einbauen
