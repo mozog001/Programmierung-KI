@@ -66,7 +66,7 @@ class StockDatabase:
         for dataValues in data.values():
             self.cur.execute(
                 "INSERT OR IGNORE INTO symbols VALUES (NULL, ?, ?, ?, ?, ?, ?)", (
-                    dataValues['Symbol'], dataValues['Name'], dataValues['Country'], dataValues['IPO Year'], dataValues['Sector'], dataValues['Industry']))
+                    dataValues['symbol'], dataValues['name'], dataValues['country'], dataValues['ipo year'], dataValues['sector'], dataValues['industry']))
             self.conn.commit()
 
 
