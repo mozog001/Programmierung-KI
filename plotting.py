@@ -5,8 +5,11 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import * 
 import pyqtgraph as pg
 import Database as db
-import graph_utils as grut
-import sys 
+import graph_utils
+import display_data as dd
+import helper
+import sys
+from datetime import datetime, timedelta ##temp
 
 ## Klasse zur Initialisierung und Beschreibung des GUI   
 class GUI_Window(QtWidgets.QMainWindow): 
@@ -23,6 +26,12 @@ class GUI_Window(QtWidgets.QMainWindow):
         # GUI Komponenten aufrufen
         self.GUI_components() 
         
+        #self.StockDB = db.StockDatabase()
+        
+        self.numberOf_days = helper.NUMB_DAYS()
+        
+        #self.data_display_layer = dd.DisplayData() ##temp
+        
     def GUI_components(self):
 
         self.StockNames = list()
@@ -37,10 +46,6 @@ class GUI_Window(QtWidgets.QMainWindow):
         self.err_label.setWordWrap(True)
         
         #Buttons für die Auswahl der Öffnuns- und Schließungskurse definieren
-        #self.Time_Button_Intra = QPushButton(self)
-        #self.Time_Button_Intra.setText("Intraday")
-        #self.Time_Button_Intra.move(200,10)
-        
         self.Time_Button_1Week = QPushButton(self)
         self.Time_Button_1Week.setText("1 Woche")
         self.Time_Button_1Week.move(300,10)
@@ -114,24 +119,64 @@ class GUI_Window(QtWidgets.QMainWindow):
         else:
             self.err_label.setText('Falsche Eingabe')
             
-        self.symbol_List = self.StockDB.search_symbol(value)
+        #self.symbol_List = self.StockDB.search_symbol(value)
+        self.symbol_List = db.StockDatabase().search_symbol(value)
         print(self.symbol_List)
         self.SymbolNames = [SymbolName[1] for SymbolName in self.symbol_List]
         print(self.SymbolNames)
         
         self.symbol_List = [] #Liste leeren aufgrund von Speicherverbrauch
         
+    ## temp
+    def pop_graph(self, timeframe_days, stock_symbol):
+        start_date = "2023-11-28 00:00:00-05:00"
+        end_date = "2023-12-18 00:00:00-05:00"
+        stock_data = dd.DisplayData().get_stocks_list(stock_symbol, start_date, end_date)
+        #print(stock_data)
+        return stock_data
+        
     def Time_Button_1Week_Action(self):
-        number_Days = 7
+        number_Days = self.numberOf_days.WEEK_1
+        print(number_Days)
+        Stock_symbol = '' + self.SymbolNames[0]
+        ##Stock_data = graph_utils.populate_graph(number_Days, Stock_symbol)
+        Stock_data = self.pop_graph(number_Days, Stock_symbol) ##temp
+        
+        date, open_price, closed_price = helper.listOftupples_to_list(Stock_data)
+        self.qGraph.plott_graph(date, closed_price)
+        
+    def Time_Button_1Month_Action(self):
+        number_Days = self.numberOf_days.MONTH_6
+        print(number_Days)
         Stock_symbol = self.SymbolNames[0]
-        Stock_data = grut.populate_graph(number_Days, Stock_symbol)
+        Stock_data = self.pop_graph(number_Days, Stock_symbol) ##temp
+        print(Stock_data)
+        
+    def Time_Button_1Year_Action(self):
+        number_Days = self.numberOf_days.YEAR_1
+        print(number_Days)
+        Stock_symbol = self.SymbolNames[0]
+        Stock_data = self.pop_graph(number_Days, Stock_symbol) ##temp
+        print(Stock_data)
+        
+    def Time_Button_3Year_Action(self):
+        number_Days = self.numberOf_days.YEAR_3
+        print(number_Days)
+        Stock_symbol = self.SymbolNames[0]
+        Stock_data = self.pop_graph(number_Days, Stock_symbol) ##temp
+        print(Stock_data)
+        
+    def Time_Button_5Year_Action(self):
+        number_Days = self.numberOf_days.YEAR_5
+        print(number_Days)
+        Stock_symbol = self.SymbolNames[0]
+        Stock_data = self.pop_graph(number_Days, Stock_symbol) ##temp
         print(Stock_data)
 
     def text_completer(self):
         
-        self.StockDB = db.StockDatabase()
-        
-        self.StockList = self.StockDB.get_all_symbols()
+        #self.StockList = self.StockDB.get_all_symbols()
+        self.StockList = db.StockDatabase().get_all_symbols()
         self.StockNames = [StockName[2] for StockName in self.StockList]
         print('Size of StockNames_list',sys.getsizeof(self.StockNames))
         
@@ -156,6 +201,11 @@ class Plt_Graph(QtWidgets.QWidget):
         self.plotWidget = pg.PlotWidget()
         lay = QtWidgets.QVBoxLayout(self)
         lay.addWidget(self.plotWidget)
+        
+    def plott_graph(self, time_stamp, price):
+        date_dict = dict(enumerate(time_stamp))
+        
+        self.plotWidget.plot(list(date_dict.keys()), price, clear = True)
         
 
         
