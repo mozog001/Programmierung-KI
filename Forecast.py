@@ -6,11 +6,12 @@ import Database as StockDB
 
 
 class Forecast:
-    def __init__(self, stockname):
-        self.stockname = stockname
+    def __init__(self):
+        self.stockname = None
         self.stockDB = StockDB.StockDatabase()
 
-    def get_forecast(self):
+    def get_forecast(self, stockname):
+        self.stockname = stockname
         data = self.stockDB.getStockCloseData(self.stockname)
         data = pd.DataFrame(data, columns=['ds', 'y'])
         forecast = Prophet()
@@ -21,8 +22,8 @@ class Forecast:
 
 
 if __name__ == "__main__":
-    test = Forecast("TYEKF")
-    test_data = test.get_forecast()
+    test = Forecast()
+    test_data = test.get_forecast("AAPL")
     print(test_data)
 
 
