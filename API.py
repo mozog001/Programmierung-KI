@@ -4,9 +4,11 @@ import Database as StockDB
 
 
 class StockData:
-    def __init__(self, stockname):
-        self.stockname = stockname
-        self.stock = yf.Ticker(stockname)
+    def __init__(self):
+        #self.stockname = stockname
+        self.stockname = None
+        #self.stock = yf.Ticker(stockname)
+        self.stock = None
         self.filepath = None
         self.start = None
         self.end = None
@@ -26,7 +28,9 @@ class StockData:
         #  self.symbols = self.symbols.to_dict('index')
         #  stockDB.insert_symbol(self.symbols)
 
-    def get_stock_data(self, start, end):
+    def get_stock_data(self, stockname, start, end):
+        self.stockname = stockname
+        self.stock = yf.Ticker(stockname)
         self.start = start
         self.end = end
         data = self.stock.history(start=start, end=end, actions=None)
@@ -35,7 +39,9 @@ class StockData:
         data = data.set_index("Date")
         return data 
 
-    def get_stock_info(self):  # Zuordnung der Aktienkurse zum Unternehmen sowie allgemeine Informationen
+    def get_stock_info(self, stockname):  # Zuordnung der Aktienkurse zum Unternehmen sowie allgemeine Informationen
+        self.stockname = stockname
+        self.stock = yf.Ticker(stockname)
         self.long_name = self.stock.info["longName"]
         self.currency = self.stock.info["currency"]
         self.industry = f'{self.stock.info["industry"]} {self.stock.info["sector"]}'
@@ -45,7 +51,9 @@ class StockData:
         )
         return self.long_name, self.currency, self.industry, self.headquarter
 
-    def get_stock_news(self, date):  # Links in GUI anzeigen mit Vorschau? Doppelte Links in Datenbank löschen
+    def get_stock_news(self, stockname, date):  # Links in GUI anzeigen mit Vorschau? Doppelte Links in Datenbank löschen
+        self.stockname = stockname
+        self.stock = yf.Ticker(stockname)
         self.news = self.stock.news  
         self.long_name = self.stock.info["longName"]
         self.stock_news_links = [link["link"] for link in self.news]
@@ -55,7 +63,8 @@ class StockData:
         )
         return self.s_news
 
-    def get_data(self, data, long_name, currency, industry, headquarter):
+    def get_data(self, data, long_name, currency, industry, headquarter, stockname):
+        self.stockname = stockname
         self.s_data = pd.DataFrame(data)
         self.long_name = [long_name] * len(data)
         self.currency = [currency] * len(data)
@@ -80,11 +89,11 @@ if __name__ == "__main__":
     #      symbols = file.read()  # csv als Vorschläge in GUI einbauen
     #  if stock_name not in symbols:
     #      raise ValueError("Aktien-Symbol falsch oder nicht in Liste vorhanden.")
-    stock = StockData(stock_name)
-    stock_data = stock.get_stock_data(start_date, end_date)
-    stock_long_name, stock_currency, stock_industry, stock_headquarter = stock.get_stock_info()
-    stock_news = stock.get_stock_news(end_date)
-    stock_data_base = stock.get_data(stock_data, stock_long_name, stock_currency, stock_industry, stock_headquarter)
+    stock = StockData()
+    stock_data = stock.get_stock_data(stock_name, start_date, end_date)
+    stock_long_name, stock_currency, stock_industry, stock_headquarter = stock.get_stock_info(stock_name)
+    stock_news = stock.get_stock_news(stock_name, end_date)
+    stock_data_base = stock.get_data(stock_data, stock_long_name, stock_currency, stock_industry, stock_headquarter, stock_name)
     stockDataDict = stock_data_base.to_dict('index')
     stockDB.insert_stockdata(stockDataDict)
     #  stock_data_base.to_csv("stock_data.csv")  # Datenbank Tabelle 1
