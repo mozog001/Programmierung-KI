@@ -4,18 +4,17 @@ from datetime import datetime
 
 class DisplayData:
     def __init__(self):
-        pass
+        self.api_data = api.StockData()
+        self.db_data = db.StockDatabase()
 
     def fetch_stocks(self, stock_symbol, start_date, end_date):
         try:
-            data = api.StockData(stock_symbol)
-
             #parse dates
             parsed_start_date = datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S%z')
             parsed_end_date = datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S%z')
-            stock_data = data.get_stock_data(parsed_start_date, parsed_end_date)
+            stock_data = self.api_data.get_stock_data(stock_symbol, parsed_start_date, parsed_end_date)
 
-            # Turn data into a list of tuples [(date timestamp, open price, close price)]
+            # Turn data into a list of tuples [(date, open price, close price)]
             data_list = []
             for index_timestamp, row in stock_data.iterrows():
                 parsed_tstamp = index_timestamp.strftime('%Y-%m-%d %H:%M:%S%z')
@@ -27,10 +26,9 @@ class DisplayData:
     def get_stocks_list(self, stock_symbol, start_date, end_date):
         try:
             # Fetch stock data from Database
-            test_db = db.StockDatabase()
-            db_data = test_db.getStockHistoryData(stock_symbol, start_date, end_date)
+            db_data = self.db_data.getStockHistoryData(stock_symbol, start_date, end_date)
 
-            # Turn DB data into a list of tuples [(date timestamp, open price, close price)]
+            # Turn DB data into a list of tuples [(date, open price, close price)]
             stocks = []
             for stock in db_data:
                 stocks.append((stock[1], stock[2], stock[5]))
@@ -58,8 +56,7 @@ class DisplayData:
     def get_stock_news(self, stock_symbol, date):
         try:
             # Fetch stock News
-            data = api.StockData(stock_symbol)
-            stock_news = data.get_stock_news(date)
+            stock_news = self.api_data.get_stock_news(stock_symbol, date)
 
             # Turn data into a list of links [link1, link2, ...]
             links = stock_news["Link"].tolist()
