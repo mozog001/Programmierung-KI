@@ -1,3 +1,4 @@
+import re
 import sqlite3
 
 
@@ -6,14 +7,13 @@ import sqlite3
 class StockDatabase:
 
     """ Database for stock data
-        Um die Datenbank zu testen, kann die Datei TestDatabase.py ausgeführt werden.
-        Die Datenbank wird dann mit Testdaten gefüllt.
-        Die Datenbank wird in der Datei StockDatabase.db gespeichert.
-        Die Datenbank enthält 3 Tabellen:
 
-        1. links: Enthält die Links zu den einzelnen Aktien
-        2. stock_data: Enthält die historischen Daten der Aktien
-        3. symbols: Enthält die Symbole der Aktien
+        Die Datenbank wird in der Datei StockDatabase.db gespeichert.
+        Die Datenbank enthält 2 Tabellen:
+
+
+        1. stock_data: Enthält die historischen Daten der Aktien
+        2. symbols: Enthält die Symbole der Aktien
 
         Die Datenbank wird mit der Klasse StockDatabase erstellt.
         Die Klasse enthält folgende Methoden:
@@ -58,10 +58,11 @@ class StockDatabase:
 
 
     # Fügt die Symbole der Aktien in die Tabelle symbols ein
-    def insert_symbol__(self, symbol, name, country, ipo_year, sector, industry):
+    def insert_symbol_(self, symbol, name, country, ipo_year, sector, industry):
         self.cur.execute(
              "INSERT OR IGNORE INTO symbols VALUES (NULL, ?, ?, ?, ?, ?, ?)",(symbol, name, country, ipo_year, sector, industry))
         self.conn.commit()
+
     def insert_symbol(self, data):
         for dataValues in data.values():
             self.cur.execute(
@@ -70,15 +71,43 @@ class StockDatabase:
             self.conn.commit()
 
 
-
-    # Liefert die historischen Daten einer Aktie aus der Tabelle stock_data, es wird eine Liste mit den gefundenen Daten zurückgegeben
-    # Die Daten werden nach Datum sortiert ausgegeben
     def getStockHistoryData(self, symbol, beginDate, endDate):
-        self.cur.execute(
-            "SELECT * FROM stock_data WHERE symbol = ? and  Date >= ? and Date <= ? ORDER BY Date ASC", [symbol, beginDate, endDate])
+        """
+        Funktion:        getStockHistoryData: Liefert die historischen Daten einer Aktie aus der Tabelle stock_data
+                         Die Daten werden nach dem Datum sortiert ausgegeben.
 
-        rows = self.cur.fetchall()
-        return rows
+        Parameter:       symbol(string): Symbol der Aktie z.B. "AAPL"
+                         beginDate(string): Beginn der Aktienkurse, Format: YYYY-MM-DD  z.B. "2020-01-01"
+                         endDate(string): Ende der Aktienkurse, Format: YYYY-MM-DD  z.B. "2020-01-01"
+
+        Rückgabewert:    Liste mit den historischen Daten der Aktie. Die Liste ist leer, wenn keine Daten gefunden wurden.
+                         Die Liste enthält Tupel, die die Daten der Aktie enthalten
+                         z.B. [(1, '2020-01-01', 300.0, 400.0, 200.0, 350.0, 1000, 'AAPL', 'Apple Inc.', 'USD', 'Technology', 'Cupertino, California')]
+                         Die Liste wird nach dem Datum sortiert zurückgegeben.
+        """
+        retValue = []
+
+        if beginDate == None:
+            beginDate = "1900-01-01"    # Beginn der Aktienkurse wird auf 1900-01-01 gesetzt
+
+        if type(beginDate)== str and type(endDate)== str:
+
+            #Check date format  YYYY-MM-DD
+            if re.search(r'^\d{4}-\d{2}-\d{2}$', beginDate) and re.search(r'^\d{4}-\d{2}-\d{2}$', endDate):
+
+                self.cur.execute(
+                    "SELECT * FROM stock_data WHERE symbol = ? and  Date >= ? and Date <= ? ORDER BY Date ASC", [symbol, beginDate, endDate])
+
+                rows = self.cur.fetchall()
+                retValue = rows
+
+            else:  # Date format not correct
+                raise ValueError("Date format not correct, expected YYYY-MM-DD")
+
+        else:   # Date format not correct
+                raise TypeError("String expected: beginDate, endDate")
+
+        return retValue
 
     def getStockCloseData(self, symbol):
         self.cur.execute(
