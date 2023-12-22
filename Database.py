@@ -71,14 +71,14 @@ class StockDatabase:
             self.conn.commit()
 
 
-    def getStockHistoryData(self, symbol, beginDate, endDate):
+    def getStockHistoryData(self, symbol, beginDate="1900-01-01" , endDate=str(sqlite3.Date.today())):
         """
         Funktion:        getStockHistoryData: Liefert die historischen Daten einer Aktie aus der Tabelle stock_data
                          Die Daten werden nach dem Datum sortiert ausgegeben.
 
-        Parameter:       symbol(string): Symbol der Aktie z.B. "AAPL"
-                         beginDate(string): Beginn der Aktienkurse, Format: YYYY-MM-DD  z.B. "2020-01-01"
-                         endDate(string): Ende der Aktienkurse, Format: YYYY-MM-DD  z.B. "2020-01-01"
+        Parameter:       symbol(string):              Symbol der Aktie z.B. "AAPL"
+                         beginDate(string), optional: Beginn der Aktienkurse, Format: YYYY-MM-DD  z.B. "2020-01-01" oder None
+                         endDate(string), optional:   Ende der Aktienkurse, Format: YYYY-MM-DD  z.B. "2020-01-01" oder None
 
         Rückgabewert:    Liste mit den historischen Daten der Aktie. Die Liste ist leer, wenn keine Daten gefunden wurden.
                          Die Liste enthält Tupel, die die Daten der Aktie enthalten
@@ -89,6 +89,10 @@ class StockDatabase:
 
         if beginDate == None:
             beginDate = "1900-01-01"    # Beginn der Aktienkurse wird auf 1900-01-01 gesetzt
+
+        if endDate == None:
+            endDate = str(sqlite3.Date.today())     # Ende der Aktienkurse wird auf das aktuelle Datum gesetzt
+
 
         if type(beginDate)== str and type(endDate)== str:
 

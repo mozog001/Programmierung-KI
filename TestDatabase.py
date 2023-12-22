@@ -4,7 +4,7 @@ import Database as db
 db = db.StockDatabase()
 
 
-stockHistoryData = db.getStockHistoryData("AMZN", beginDate=None, endDate="2023-12-02")
+stockHistoryData = db.getStockHistoryData("AMZN","2021-01-31")
 for row in stockHistoryData:
     print(row, end="\n")
 print(len(stockHistoryData))
