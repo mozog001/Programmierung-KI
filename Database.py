@@ -2,10 +2,7 @@ import re
 import sqlite3
 
 
-
-
 class StockDatabase:
-
     """ Database for stock data
 
         Die Datenbank wird in der Datei StockDatabase.db gespeichert.
@@ -46,32 +43,32 @@ class StockDatabase:
 
         self.conn.commit()
 
-
     # Fügt die historischen Daten einer Aktie in die Tabelle stock_data ein
     def insert_stockdata(self, data):
         for DataDate, dataValues in data.items():
             self.cur.execute(
                 "INSERT OR IGNORE INTO stock_data VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (
-                    str(DataDate), dataValues['Open'], dataValues['High'], dataValues['Low'], dataValues['Close'], dataValues['Volume'], dataValues['symbol'], dataValues['stock_long_name'],
+                    str(DataDate), dataValues['Open'], dataValues['High'], dataValues['Low'], dataValues['Close'],
+                    dataValues['Volume'], dataValues['symbol'], dataValues['stock_long_name'],
                     dataValues['stock_currency'], dataValues['stock_industry'], dataValues['stock_headquarter']))
             self.conn.commit()
-
 
     # Fügt die Symbole der Aktien in die Tabelle symbols ein
     def insert_symbol_(self, symbol, name, country, ipo_year, sector, industry):
         self.cur.execute(
-             "INSERT OR IGNORE INTO symbols VALUES (NULL, ?, ?, ?, ?, ?, ?)",(symbol, name, country, ipo_year, sector, industry))
+            "INSERT OR IGNORE INTO symbols VALUES (NULL, ?, ?, ?, ?, ?, ?)",
+            (symbol, name, country, ipo_year, sector, industry))
         self.conn.commit()
 
     def insert_symbol(self, data):
         for dataValues in data.values():
             self.cur.execute(
                 "INSERT OR IGNORE INTO symbols VALUES (NULL, ?, ?, ?, ?, ?, ?)", (
-                    dataValues['symbol'], dataValues['name'], dataValues['country'], dataValues['ipo year'], dataValues['sector'], dataValues['industry']))
+                    dataValues['symbol'], dataValues['name'], dataValues['country'], dataValues['ipo year'],
+                    dataValues['sector'], dataValues['industry']))
             self.conn.commit()
 
-
-    def getStockHistoryData(self, symbol, beginDate="1900-01-01" , endDate=str(sqlite3.Date.today())):
+    def getStockHistoryData(self, symbol, beginDate="1900-01-01", endDate=str(sqlite3.Date.today())):
         """
         Funktion:        getStockHistoryData: Liefert die historischen Daten einer Aktie aus der Tabelle stock_data
                          Die Daten werden nach dem Datum sortiert ausgegeben.
@@ -88,28 +85,28 @@ class StockDatabase:
         retValue = []
 
         if beginDate == None:
-            beginDate = "1900-01-01"    # Beginn der Aktienkurse wird auf 1900-01-01 gesetzt
+            beginDate = "1900-01-01"  # Beginn der Aktienkurse wird auf 1900-01-01 gesetzt
 
         if endDate == None:
-            endDate = str(sqlite3.Date.today())     # Ende der Aktienkurse wird auf das aktuelle Datum gesetzt
+            endDate = str(sqlite3.Date.today())  # Ende der Aktienkurse wird auf das aktuelle Datum gesetzt
 
+        if type(beginDate) == str and type(endDate) == str:
 
-        if type(beginDate)== str and type(endDate)== str:
-
-            #Check date format  YYYY-MM-DD
-            if re.search(r'^\d{4}-\d{2}-\d{2}$', beginDate) and re.search(r'^\d{4}-\d{2}-\d{2}$', endDate):
+            # Check date format  YYYY-MM-DD
+            #if re.search(r'^\d{4}-\d{2}-\d{2}$', beginDate) and re.search(r'^\d{4}-\d{2}-\d{2}$', endDate):
 
                 self.cur.execute(
-                    "SELECT * FROM stock_data WHERE symbol = ? and  Date >= ? and Date <= ? ORDER BY Date ASC", [symbol, beginDate, endDate])
+                    "SELECT * FROM stock_data WHERE symbol = ? and  Date >= ? and Date <= ? ORDER BY Date ASC",
+                    [symbol, beginDate, endDate])
 
                 rows = self.cur.fetchall()
                 retValue = rows
 
-            else:  # Date format not correct
-                raise ValueError("Date format not correct, expected YYYY-MM-DD")
+            #else:  # Date format not correct
+                #raise ValueError("Date format not correct, expected YYYY-MM-DD")
 
-        else:   # Date format not correct
-                raise TypeError("String expected: beginDate, endDate")
+        else:  # Date format not correct
+            raise TypeError("String expected: beginDate, endDate")
 
         return retValue
 
@@ -124,7 +121,7 @@ class StockDatabase:
     def search_symbol(self, name=""):
 
         self.cur.execute(
-            "SELECT * FROM symbols WHERE name like ?", [str("%"+name+"%")])
+            "SELECT * FROM symbols WHERE name like ?", [str("%" + name + "%")])
 
         rows = self.cur.fetchall()
         return rows
@@ -132,7 +129,7 @@ class StockDatabase:
     def get_all_symbols(self):
         self.cur.execute(
             "SELECT * FROM symbols")
-        
+
         rows = self.cur.fetchall()
         return rows
 
