@@ -1,5 +1,6 @@
 class NUMB_DAYS:
     WEEK_1 = 7
+    MONTH_1 = 31
     MONTH_6 = 183
     YEAR_1 = 365
     YEAR_3 = 1095

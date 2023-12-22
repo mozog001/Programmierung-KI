@@ -10,9 +10,9 @@ class DisplayData:
     def fetch_stocks(self, stock_symbol, start_date, end_date):
         try:
             #parse dates
-            parsed_start_date = datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S%z')
-            parsed_end_date = datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S%z')
-            stock_data = self.api_data.get_stock_data(stock_symbol, parsed_start_date, parsed_end_date)
+            #parsed_start_date = datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S%z')
+            #parsed_end_date = datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S%z')
+            stock_data = self.api_data.get_stock_data(stock_symbol, start_date, end_date)
 
             # Turn data into a list of tuples [(date, open price, close price)]
             data_list = []
@@ -39,7 +39,7 @@ class DisplayData:
                 return fetched_stocks
 
             # Check if fetch_stocks is needed for start_date
-            if stocks[0][0] > start_date:
+            if (stocks[0][0] > start_date) or (start_date == None):
                 fetched_stocks = self.fetch_stocks(stock_symbol, start_date, stocks[0][0])
                 if fetched_stocks:
                     stocks = fetched_stocks + stocks
@@ -66,10 +66,10 @@ class DisplayData:
 
 def main():
     display = DisplayData()
-    stock_symbol = "TYEKF"
-    start_date = "2023-11-28 00:00:00-05:00"
-    end_date = "2023-12-30 00:00:00-05:00"
-    print(display.get_stocks_list(stock_symbol, start_date, end_date))
+    stock_symbol = "AMZN"
+    start_date = "2016-12-01"
+    end_date = "2016-12-06"
+    print(display.get_stocks_list(stock_symbol, None, end_date))
     print(display.fetch_stocks(stock_symbol, start_date, end_date))
     print(display.get_stock_news(stock_symbol, start_date))
 
