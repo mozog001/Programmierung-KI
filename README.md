@@ -13,7 +13,6 @@
 ## Installationshinweis
 Um die für das Projekt notwendigen Requirements automatisch zu installieren, muss in das Verzeichnis navigiert werden und in folgender Code in der Kommandozeile ausgeführt werden: pip install -r requirements.txt
 
-## QTDesginer
-Wenn die Requirements entsprechend installiert wurden, befindet sich die QTDesigner.exe im site-packages der Python Runtime Environment. Der allgemeine Pfad sieht wie folgt aus "Python311\site-packages\qt5_applications\Qt\bin"
-
-Hinweis: Je nach Python-Installation werden die Packages im AppData-Ordner abgespeichert, der über den File-Explorer nicht zu erreichen ist. Ausführen-Kommandozeile öffnen (mit Windowslogo + R) und AppData eingeben. Mit Enter Ausführen und der Ordner sollte sich öffnen.
+## Known Bugs
+Issue: Importing plotly failed. Interactive plots will not work.
+Solution: run pip install --upgrade plotly

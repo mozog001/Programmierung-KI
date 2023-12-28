@@ -1,6 +1,6 @@
 import API as api
 import Database as db
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class DisplayData:
     def __init__(self):
@@ -11,8 +11,8 @@ class DisplayData:
         try:
             #parse dates
             #parsed_start_date = datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S%z')
-            #parsed_end_date = datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S%z')
-            stock_data = self.api_data.get_stock_data(stock_symbol, start_date, end_date)
+            parsed_end_date = datetime.strptime(end_date, '%Y-%m-%d') + timedelta(days=1)
+            stock_data = self.api_data.get_stock_data(stock_symbol, start_date, parsed_end_date)
 
             # Turn data into a list of tuples [(date, open price, close price)]
             data_list = []
@@ -42,13 +42,13 @@ class DisplayData:
             if start_date is None or stocks[0][0] > start_date:
                 fetched_stocks = self.fetch_stocks(stock_symbol, start_date, stocks[0][0])
                 if fetched_stocks:
-                    stocks = fetched_stocks + stocks
+                    stocks.append(fetched_stocks)
 
             # Check if fetch_stocks is needed for end_date
             if stocks[-1][0] < end_date:
                 fetched_stocks = self.fetch_stocks(stock_symbol, stocks[-1][0], end_date)
                 if fetched_stocks:
-                    stocks = stocks + fetched_stocks
+                    stocks.append(fetched_stocks)
             return stocks
         except Exception as e:
             return f"Error getting stock list: {str(e)}"
@@ -67,11 +67,14 @@ class DisplayData:
 def main():
     display = DisplayData()
     stock_symbol = "AMZN"
-    start_date = "2016-12-01"
-    end_date = "2016-12-06"
-    print(display.get_stocks_list(stock_symbol, None, end_date))
-    print(display.fetch_stocks(stock_symbol, start_date, end_date))
-    print(display.get_stock_news(stock_symbol, start_date))
+    start_date = "2023-12-11"
+    end_date = "2023-12-15"
+    print('get_stocks_list:')
+    print(display.get_stocks_list(stock_symbol, start_date, end_date))
+    #print('fetch_stocks:')
+    #print(display.fetch_stocks(stock_symbol, start_date, end_date))
+    #print('get_stock_news:')
+    #print(display.get_stock_news(stock_symbol, start_date))
 
 if __name__ == "__main__":
     main()
