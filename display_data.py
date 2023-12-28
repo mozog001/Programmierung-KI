@@ -39,7 +39,7 @@ class DisplayData:
                 return fetched_stocks
 
             # Check if fetch_stocks is needed for start_date
-            if (stocks[0][0] > start_date) or (start_date == None):
+            if start_date is None or stocks[0][0] > start_date:
                 fetched_stocks = self.fetch_stocks(stock_symbol, start_date, stocks[0][0])
                 if fetched_stocks:
                     stocks = fetched_stocks + stocks

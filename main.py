@@ -2,7 +2,7 @@ from plotting import *
 from display_data import *
 
 def main():
-    
+
     # GUI aufrufen
     app = QtWidgets.QApplication(sys.argv)
     GUI = GUI_Window()

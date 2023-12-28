@@ -13,6 +13,7 @@ class Forecast:
     def get_forecast(self, stockname):
         self.stockname = stockname
         data = self.stockDB.getStockCloseData(self.stockname)
+        print(data)
         data = pd.DataFrame(data, columns=['ds', 'y'])
         forecast = Prophet()
         forecast.fit(data)
