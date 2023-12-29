@@ -955,7 +955,6 @@ class Plt_Graph(QtWidgets.QWidget):
         start_date = start_date_offset.strftime('%Y-%m-%d')
        
         stock_data = dd.DisplayData().get_stocks_list(stock_symbol, start_date, end_date)
-        print(stock_data)
 
         return stock_data
     
