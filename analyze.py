@@ -1,11 +1,26 @@
-import pandas as pd
+﻿import pandas as pd
 from prophet import Prophet
 
 class Analyzing_methods:
+    """
+    Analyzing_methods ist eine Klasse, die verschiedene Methoden für die Analyse von Aktiendaten bereitstellt.
+    Die Klasse enthält folgende MEthoden:
+    1. calculate_sma(self, stock_data, window_size): Berechnet den einfachen gleitenden Durchschnitt (SMA) für eine gegebene Fenstergröße.
+    2. get_forecast_tail(self, data): Erstellt eine Prognose für die nächsten 7 Tage basierend auf den übergebenen Daten.
+    3. get_forecast(self, data): Erstellt eine Prognose für die nächsten 7 Tage basierend auf den übergebenen Daten.
+    """
     def __init__(self):
         pass
     
     def calculate_sma(self, stock_data, window_size):
+        """
+        Funktion: Berechnet den einfachen gleitenden Durchschnitt (SMA) für eine gegebene Fenstergröße.
+        param:
+            - stock_data: Liste von Tupeln, die Datenpunkte repräsentieren (Datum, Wert).
+            - window_size: Größe des Fensters für den SMA.
+        return:
+            - Eine Liste von Tupeln, die den SMA für jeden Datenpunkt repräsentieren.
+        """
         sma_values = []
         for i in range(len(stock_data) - window_size + 1):
             window = stock_data[i:i + window_size]        
@@ -18,6 +33,13 @@ class Analyzing_methods:
         return sma_values
      
     def get_forecast_tail(self, data):
+        """
+        Funktion: Erstellt eine Prognose für die nächsten 7 Tage basierend auf den übergebenen Daten.
+        param:
+            - data: Liste von Tupeln, die Datenpunkte repräsentieren (Datum, Wert).
+        return:
+            - predict: Gibt nur die die Prognose für die nächsten 7 Tage als DataFrame mit Spalten 'ds' und 'yhat'.
+        """
         data = pd.DataFrame(data, columns=['ds', 'y'])
         forecast = Prophet()
         forecast.fit(data)
@@ -25,7 +47,15 @@ class Analyzing_methods:
         predict = forecast.predict(future)
         return predict[["ds", "yhat"]].tail()
     
-    def get_forecast(self, data, number_days):
+    def get_forecast(self, data):
+        """
+        Funktion: Erstellt eine Prognose für die nächsten 7 Tage basierend auf den übergebenen Daten.
+        param:
+            - data: Liste von Tupeln, die Datenpunkte repräsentieren (Datum, Wert).
+            - number_days: Anzahl der Tage für die Prognose.
+        return:
+            - predict: Die gesamte Prognose als DataFrame mit Spalten 'ds', 'yhat', 'yhat_lower' und 'yhat_upper'.
+        """
         data = pd.DataFrame(data, columns=['ds', 'y'])
         forecast = Prophet()
         forecast.fit(data)
