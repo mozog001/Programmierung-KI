@@ -1,15 +1,15 @@
-﻿from PyQt5 import QtWidgets
+﻿import sys
+from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import * 
 from PyQt5 import QtCore, QtGui 
 from PyQt5.QtGui import * 
 from PyQt5.QtCore import * 
 import pyqtgraph as pg
 import pyqtgraph.exporters
-import Database as db
-import analyze as an
-import display_data as dd
-import helper
-import sys
+from Low_Level.Database import Database as db
+from Analyze import analyze as an
+from Controller import display_data as dd
+from help_methods import helper
 from datetime import datetime, timedelta, timezone
  
 class GUI_Window(QtWidgets.QMainWindow): 
