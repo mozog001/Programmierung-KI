@@ -42,13 +42,13 @@ class DisplayData:
             if start_date is None or stocks[0][0] > start_date:
                 fetched_stocks = self.fetch_stocks(stock_symbol, start_date, stocks[0][0])
                 if fetched_stocks:
-                    stocks.append(fetched_stocks)
+                    stocks.extend(fetched_stocks)
 
             # Check if fetch_stocks is needed for end_date
             if stocks[-1][0] < end_date:
                 fetched_stocks = self.fetch_stocks(stock_symbol, stocks[-1][0], end_date)
                 if fetched_stocks:
-                    stocks.append(fetched_stocks)
+                    stocks.extend(fetched_stocks)
             return stocks
         except Exception as e:
             return f"Error getting stock list: {str(e)}"
