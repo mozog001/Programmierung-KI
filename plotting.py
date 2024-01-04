@@ -100,7 +100,7 @@ class GUI_Window(QtWidgets.QMainWindow):
         self.textbox.setStyleSheet("border-radius: 8px; border: 2px solid #D3D3D3; padding: 5px 15px;")
         self.textbox.setPlaceholderText('Suchen')
         self.textbox.mouseReleaseEvent = self.clearText
-        self.textbox.returnPressed.connect(lambda: self.textBox_Action())
+        self.textbox.returnPressed.connect(self.textBox_Action)
         
         #Label für die Überschrift "Stock" definieren
         self.stock_label_headline = QLabel("Stock", self)

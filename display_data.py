@@ -17,7 +17,7 @@ class DisplayData:
             # Turn data into a list of tuples [(date, open price, close price)]
             data_list = []
             for index_timestamp, row in stock_data.iterrows():
-                parsed_tstamp = index_timestamp.strftime('%Y-%m-%d %H:%M:%S%z')
+                parsed_tstamp = index_timestamp.strftime('%Y-%m-%d')
                 data_list.append((parsed_tstamp , row["Open"], row["Close"]))
             return data_list
         except Exception as e:
@@ -42,13 +42,13 @@ class DisplayData:
             if start_date is None or stocks[0][0] > start_date:
                 fetched_stocks = self.fetch_stocks(stock_symbol, start_date, stocks[0][0])
                 if fetched_stocks:
-                    stocks.append(fetched_stocks)
+                    stocks.extend(fetched_stocks)
 
             # Check if fetch_stocks is needed for end_date
             if stocks[-1][0] < end_date:
                 fetched_stocks = self.fetch_stocks(stock_symbol, stocks[-1][0], end_date)
                 if fetched_stocks:
-                    stocks.append(fetched_stocks)
+                    stocks.extend(fetched_stocks)
             return stocks
         except Exception as e:
             return f"Error getting stock list: {str(e)}"
