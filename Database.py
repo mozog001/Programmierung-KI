@@ -30,8 +30,8 @@ class StockDatabase:
         # Stellt eine Verbindung zur lokalen Datenbank "StockDatabase.db her
         self.conn = sqlite3.connect('StockDatabase.db')
         self.cur = self.conn.cursor()
-        # Erstelle notwendige Tabellen "Datenmodellierung" --> stock_data, symbols
 
+        # Erstelle notwendige Tabellen "Datenmodellierung" --> stock_data, symbols
         self.cur.execute(
             "CREATE TABLE IF NOT EXISTS stock_data (id INTEGER PRIMARY KEY, date TEXT, open REAL, high REAL, \
             low REAL,close REAL, volume INT, symbol TEXT ,stock_long_name TEXT , stock_currency TEXT, stock_industry TEXT ,\
@@ -45,6 +45,17 @@ class StockDatabase:
 
     # Fügt die historischen Daten einer Aktie in die Tabelle stock_data ein
     def insert_stockdata(self, data):
+        """
+        Funktion:        insert_stockdata: Fügt die historischen Daten einer Aktie in die Tabelle stock_data ein.
+
+
+        Parameter:       data(List of dictonaries):  Dictornary (key: value) mit den historischen Daten der Aktie
+                            z.B. [{'Date': '2020-01-01'}, {'Open': 300.0, 'High': 400.0, 'Low': 200.0, 'Close': 350.0,
+                            'Volume': 1000, 'symbol': 'AAPL', 'stock_long_name': 'Apple Inc.', 'stock_currency': 'USD',
+                            'stock_industry': 'Technology', 'stock_headquarter': 'Cupertino, California'}}]
+
+        Rückgabewert:    Kein Rückgabewert
+        """
         for DataDate, dataValues in data.items():
             self.cur.execute(
                 "INSERT OR IGNORE INTO stock_data VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (
@@ -61,6 +72,16 @@ class StockDatabase:
         self.conn.commit()
 
     def insert_symbol(self, data):
+        """
+        Funktion:        insert_symbol: Fügt die Symbole der Aktien in die Tabelle symbols ein.
+
+
+        Parameter:       data(List of dictonaries): Dictornary (key: value) mit den Symbolen der Aktien
+                            z.B. [{'symbol': 'AAPL', 'name': 'Apple Inc.', 'country': 'United States', 'ipo year': 1980,
+                            'sector': 'Technology', 'industry': 'Consumer Electronics'}]
+
+        Rückgabewert:    Kein Rückgabewert
+        """
         for dataValues in data.values():
             self.cur.execute(
                 "INSERT OR IGNORE INTO symbols VALUES (NULL, ?, ?, ?, ?, ?, ?)", (
@@ -119,7 +140,14 @@ class StockDatabase:
 
     # Sucht nach einem Symbol in der Tabelle symbols, es wird eine Liste mit den gefundenen Symbolen zurückgegeben
     def search_symbol(self, name=""):
+        """
+        Funktion:        search_symbol: Sucht nach einem Ausdruck in der Tabelle symbols in der Spalte name.
+                         Es wird eine Liste mit den gefundenen Symbolen zurückgegeben.
 
+        Parameter:       name(string):              String, der in der Spalte name gesucht wird. z.B. "Apple"
+
+        Rückgabewert:    Liste der gefundenen Symbole. Die Liste ist leer, wenn keine Symbole gefunden wurden.
+        """
         self.cur.execute(
             "SELECT * FROM symbols WHERE name like ?", [str("%" + name + "%")])
 
