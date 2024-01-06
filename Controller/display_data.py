@@ -8,6 +8,18 @@ class DisplayData:
         self.db_data = db.StockDatabase()
 
     def fetch_stocks(self, stock_symbol, start_date, end_date):
+        """
+        Fetches stock data from the API for a given stock symbol and date range.
+
+        Args:
+            stock_symbol (str): The symbol of the stock.
+            start_date (str): The start date of the date range in the format 'YYYY-MM-DD'.
+            end_date (str): The end date of the date range in the format 'YYYY-MM-DD'.
+
+        Returns:
+            list: A list of tuples representing the stock data [(date, open price, close price)].
+            If an error occurs, returns an error message.
+        """
         try:
             #parse dates
             #parsed_start_date = datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S%z')
@@ -24,6 +36,18 @@ class DisplayData:
             return f"Error fetching stock data: {str(e)}"
 
     def get_stocks_list(self, stock_symbol, start_date, end_date):
+        """
+        Gets the list of stocks for a given stock symbol and date range.
+
+        Args:
+            stock_symbol (str): The symbol of the stock.
+            start_date (str): The start date of the date range in the format 'YYYY-MM-DD'.
+            end_date (str): The end date of the date range in the format 'YYYY-MM-DD'.
+
+        Returns:
+            list: A list of tuples representing the stock data [(date, open price, close price)].
+            If an error occurs, returns an error message.
+        """
         try:
             # Fetch stock data from Database
             db_data = self.db_data.getStockHistoryData(stock_symbol, start_date, end_date)
@@ -54,6 +78,17 @@ class DisplayData:
             return f"Error getting stock list: {str(e)}"
 
     def get_stock_news(self, stock_symbol, date):
+        """
+        Gets the news links for a given stock symbol and date.
+
+        Args:
+            stock_symbol (str): The symbol of the stock.
+            date (str): The date in the format 'YYYY-MM-DD'.
+
+        Returns:
+            list: A list of news links.
+            If an error occurs, returns an error message.
+        """
         try:
             # Fetch stock News
             stock_news = self.api_data.get_stock_news(stock_symbol, date)
@@ -65,6 +100,9 @@ class DisplayData:
             return f"Error getting stock news: {str(e)}"
 
 def main():
+    """
+    The main function that demonstrates the usage of the DisplayData class.
+    """
     display = DisplayData()
     stock_symbol = "AMZN"
     start_date = "2023-12-11"
