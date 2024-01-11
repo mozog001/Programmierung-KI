@@ -1,6 +1,15 @@
 import yfinance as yf  # https://pypi.org/project/yfinance/
 import pandas as pd
-import Database as StockDB
+from import os
+import sysimport os
+import sysimport os
+import sysimport os
+import sysimport os
+import sysimport os
+import sysimport os
+import sysimport os
+import Low_Level.Database import Database as StockDB
+
 
 
 class StockData:
