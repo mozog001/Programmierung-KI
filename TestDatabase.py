@@ -1,4 +1,4 @@
-from Low_Level.Database import Database as db
+import Database as db
 
 # Test Database
 db = db.StockDatabase()
