@@ -1,5 +1,5 @@
-from Low_Level.API import API as api
-from Low_Level.Database import Database as db
+import API as api
+import Database as db
 from datetime import datetime, timedelta
 
 class DisplayData:
@@ -17,7 +17,7 @@ class DisplayData:
             # Turn data into a list of tuples [(date, open price, close price)]
             data_list = []
             for index_timestamp, row in stock_data.iterrows():
-                parsed_tstamp = index_timestamp.strftime('%Y-%m-%d')
+                parsed_tstamp = index_timestamp.strftime('%Y-%m-%d %H:%M:%S%z')
                 data_list.append((parsed_tstamp , row["Open"], row["Close"]))
             return data_list
         except Exception as e:

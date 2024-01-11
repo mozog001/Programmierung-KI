@@ -1,15 +1,15 @@
-﻿import sys
-from PyQt5 import QtWidgets
+﻿from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import * 
 from PyQt5 import QtCore, QtGui 
 from PyQt5.QtGui import * 
 from PyQt5.QtCore import * 
 import pyqtgraph as pg
 import pyqtgraph.exporters
-from Low_Level.Database import Database as db
-from Analyze import analyze as an
-from Controller import display_data as dd
-from help_methods import helper
+import Database as db
+import analyze as an
+import display_data as dd
+import helper
+import sys
 from datetime import datetime, timedelta, timezone
  
 class GUI_Window(QtWidgets.QMainWindow): 
@@ -100,7 +100,7 @@ class GUI_Window(QtWidgets.QMainWindow):
         self.textbox.setStyleSheet("border-radius: 8px; border: 2px solid #D3D3D3; padding: 5px 15px;")
         self.textbox.setPlaceholderText('Suchen')
         self.textbox.mouseReleaseEvent = self.clearText
-        self.textbox.returnPressed.connect(self.textBox_Action)
+        self.textbox.returnPressed.connect(lambda: self.textBox_Action())
         
         #Label für die Überschrift "Stock" definieren
         self.stock_label_headline = QLabel("Stock", self)

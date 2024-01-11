@@ -1,13 +1,13 @@
-from GUI import plotting as pl
-import sys
+from plotting import *
+from display_data import *
 
 def main():
 
     # GUI aufrufen
-    app = pl.QtWidgets.QApplication(sys.argv)
-    UI = pl.GUI_Window()
-    UI.text_completer()
-    UI.show_Window(app)
+    app = QtWidgets.QApplication(sys.argv)
+    GUI = GUI_Window()
+    GUI.text_completer()
+    GUI.show_Window(app)
 
 if __name__ == '__main__':
     main()
