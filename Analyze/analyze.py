@@ -59,6 +59,6 @@ class Analyzing_methods:
         data = pd.DataFrame(data, columns=['ds', 'y'])
         forecast = Prophet()
         forecast.fit(data)
-        future = forecast.make_future_dataframe(periods=7)
+        future = forecast.make_future_dataframe(periods=30)
         predict = forecast.predict(future)
         return predict[["ds", "yhat", "yhat_lower", "yhat_upper"]]
