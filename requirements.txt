@@ -1,6 +1,5 @@
 pyqt5
 pyqt5-tools
-matplotlib
 yfinance
 pandas
 pyqtgraph

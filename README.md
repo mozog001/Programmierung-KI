@@ -29,7 +29,6 @@ Wir haben die folgenden Python-Bibliotheken, Tools und APIs verwendet, um unsere
 
 <b>PyQt5</b>: PyQt5 ist ein Qt-Framework für Python, das die Entwicklung von grafischen Benutzeroberflächen (GUIs) ermöglicht.  
 <b>PyQt5-tools</b>: PyQt5-tools ist eine Sammlung von Tools, die die Entwicklung von PyQt5-Anwendungen erleichtern.  
-<b>Matplotlib</b>: Matplotlib ist eine Bibliothek für die Erstellung von Diagrammen und Visualisierungen.  
 <b>yfinance</b>: yfinance ist eine Bibliothek für den Zugriff auf Finanzdaten.  
 <b>pandas</b>: pandas ist eine Bibliothek für die Manipulation und Analyse von Daten.  
 <b>pyqtgraph</b>: pyqtgraph ist eine Bibliothek für die Erstellung von interaktiven Diagrammen und Visualisierungen.  
@@ -38,8 +37,7 @@ Wir haben die folgenden Python-Bibliotheken, Tools und APIs verwendet, um unsere
 ## Wir haben diese Technologien verwendet, weil sie uns die folgenden Vorteile bieten:
 
 <b>Python</b>: Python ist eine leistungsstarke und vielseitige Sprache, die sich gut für die Entwicklung von Datenanalyse- und Visualisierungstools eignet.  
-<b>PyQt5</b>: PyQt5 bietet eine einfache und intuitive API für die Entwicklung von GUIs.  
-<b>Matplotlib</b>: Matplotlib bietet eine Vielzahl von Funktionen für die Erstellung von ansprechenden und informativen Diagrammen und Visualisierungen.  
+<b>PyQt5</b>: PyQt5 bietet eine einfache und intuitive API für die Entwicklung von GUIs.   
 <b>yfinance</b>: yfinance bietet einen einfachen Zugriff auf Finanzdaten aus einer Vielzahl von Quellen.  
 <b>pandas</b>: pandas bietet eine Vielzahl von Funktionen für die Manipulation und Analyse von Daten.  
 <b>pyqtgraph</b>: pyqtgraph bietet eine leistungsstarke und flexible API für die Erstellung von interaktiven Diagrammen und Visualisierungen.  
@@ -78,10 +76,10 @@ In Zukunft planen wir die Integration folgender Funktionen in unsere Anwendung:
 - [x] Auswahl verschiedener Unternehmen und deren Aktienkurse über eine grafische Benutzeroberfläche (GUI)
 - [x] Möglichkeit zur Anzeige und Ausblendung von Informationen im zeitlichen Verlauf über die GUI
 - [x] Anwendung verschiedener Analysemethoden über die GUI
-- [ ] Export und Speicherung der Daten in Excel-Format über die GUI
+- [x] Export und Speicherung der Daten in Excel-Format über die GUI
 
 ## Installationshinweis:
-Um die für das Projekt notwendigen Requirements automatisch zu installieren, muss in das Verzeichnis navigiert werden und in folgender Code in der Kommandozeile ausgeführt werden: pip install -r requirements.txt
+Um die für das Projekt notwendigen Requirements automatisch zu installieren, muss in das Verzeichnis navigiert werden und in folgender Code in der Kommandozeile ausgeführt werden: <b>pip install -r requirements.txt</b>
 
 ## Bedienhinweis:
 1. Starten der main.py
@@ -89,7 +87,7 @@ Um die für das Projekt notwendigen Requirements automatisch zu installieren, mu
 3. Das Unternehmen im Dropdown auswählen und Enter drücken. Anschließend auf die API-Abfrage bzw. den Datenbankaufruf warten (dauert bis zu einer Minute)
 4. Nachdem die Daten verarbeitet wurden, sind die Weekly-Trends ersichtlich.
 5. Damit der Aktienkurs visuell Dargestellt werden kann, muss die Schaltfläche ABS (Absoluter Aktienkurs) selektiert werden und ein Betrachtungszeitraum gewählt werden (z.B. 6 Monate).
-6. Um sich weitere Analysen anzeigen zu lassen, können die Buttons SMA (Simple Moving Average) und TSM () ausgewählt werden. Hinweis: Der Graph wird erst angezeigt, nachdem man einen Zeitraum auswählt.
+6. Um sich weitere Analysen anzeigen zu lassen, können die Buttons SMA (Simple Moving Average) und TSM ausgewählt werden. Hinweis: Der Graph wird erst angezeigt, nachdem man einen Zeitraum auswählt.
 
 ## Known Issues
 Issue: "Importing plotly failed. Interactive plots will not work."  
