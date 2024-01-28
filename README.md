@@ -8,7 +8,9 @@
 - [Bedienhinweis:](#bedienhinweis)
 - [Known Issues](#known-issues)
 
-Unsere Aktien-App ist ein Aktienkurs-Index-Tool, das es Benutzern ermöglicht, die Kursentwicklung von Aktien verschiedener Unternehmen zu verfolgen. Die Anwendung bezieht Daten über eine kostenlose Börsen-API und speichert diese in einer Datenbank. Die Daten werden dann in einer grafischen Benutzeroberfläche (GUI) dargestellt, die es Benutzern ermöglicht, den Aktienkurs und zugehörige Informationen über die Zeit zu sehen.
+Unsere Aktien-App ist ein Aktienkurs-Index-Tool, das es Benutzern ermöglicht, die Kursentwicklung von Aktien verschiedener Unternehmen zu verfolgen. Die Anwendung bezieht Daten über eine kostenlose Börsen-API und speichert diese in einer Datenbank. Die Daten werden dann in einer grafischen Benutzeroberfläche (GUI) dargestellt, die es Benutzern ermöglicht, den Aktienkurs und zugehörige Informationen über die Zeit zu sehen.  
+
+Die App wurde von uns bei GitHub veröffentlicht und ist unter https://github.com/mozog001/Programmierung-KI.git zu erreichen!  
 
 Die Anwendung bietet folgende Funktionen:
 
