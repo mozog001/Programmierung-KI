@@ -46,6 +46,14 @@ class StockDatabase:
             self.conn.commit()
         except sqlite3.Error as error:
             print("Error while connecting to sqlite ", error)
+    # ------------------------------------------------------------------------------------------------------------------
+    # Löscht alle Einträge in der Tabelle stock_data
+    def delete_stockdata(self):
+        try:
+            self.cur.execute("DELETE FROM stock_data")
+            self.conn.commit()
+        except sqlite3.Error as error:
+            print("Failed to delete data from sqlite table ", error)
 
     # ------------------------------------------------------------------------------------------------------------------
     # Fügt die historischen Daten einer Aktie in die Tabelle stock_data ein
