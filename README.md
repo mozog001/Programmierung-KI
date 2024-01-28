@@ -24,33 +24,33 @@ Die Anwendung bietet folgende Funktionen:
 
 Wir haben die folgenden Python-Bibliotheken, Tools und APIs verwendet, um unsere Anwendung zu erstellen:
 
-PyQt5: PyQt5 ist ein Qt-Framework für Python, das die Entwicklung von grafischen Benutzeroberflächen (GUIs) ermöglicht.
-PyQt5-tools: PyQt5-tools ist eine Sammlung von Tools, die die Entwicklung von PyQt5-Anwendungen erleichtern.
-Matplotlib: Matplotlib ist eine Bibliothek für die Erstellung von Diagrammen und Visualisierungen.
-yfinance: yfinance ist eine Bibliothek für den Zugriff auf Finanzdaten.
-pandas: pandas ist eine Bibliothek für die Manipulation und Analyse von Daten.
-pyqtgraph: pyqtgraph ist eine Bibliothek für die Erstellung von interaktiven Diagrammen und Visualisierungen.
-prophet: Prophet ist ein Zeitreihen-Forecasting-Modell.
+<b>PyQt5</b>: PyQt5 ist ein Qt-Framework für Python, das die Entwicklung von grafischen Benutzeroberflächen (GUIs) ermöglicht.  
+<b>PyQt5-tools</b>: PyQt5-tools ist eine Sammlung von Tools, die die Entwicklung von PyQt5-Anwendungen erleichtern.  
+<b>Matplotlib</b>: Matplotlib ist eine Bibliothek für die Erstellung von Diagrammen und Visualisierungen.  
+<b>yfinance</b>: yfinance ist eine Bibliothek für den Zugriff auf Finanzdaten.  
+<b>pandas</b>: pandas ist eine Bibliothek für die Manipulation und Analyse von Daten.  
+<b>pyqtgraph</b>: pyqtgraph ist eine Bibliothek für die Erstellung von interaktiven Diagrammen und Visualisierungen.  
+<b>prophet</b>: Prophet ist ein Zeitreihen-Forecasting-Modell.  
 
 ## Wir haben diese Technologien verwendet, weil sie uns die folgenden Vorteile bieten:
 
-Python: Python ist eine leistungsstarke und vielseitige Sprache, die sich gut für die Entwicklung von Datenanalyse- und Visualisierungstools eignet.
-PyQt5: PyQt5 bietet eine einfache und intuitive API für die Entwicklung von GUIs.
-Matplotlib: Matplotlib bietet eine Vielzahl von Funktionen für die Erstellung von ansprechenden und informativen Diagrammen und Visualisierungen.
-yfinance: yfinance bietet einen einfachen Zugriff auf Finanzdaten aus einer Vielzahl von Quellen.
-pandas: pandas bietet eine Vielzahl von Funktionen für die Manipulation und Analyse von Daten.
-pyqtgraph: pyqtgraph bietet eine leistungsstarke und flexible API für die Erstellung von interaktiven Diagrammen und Visualisierungen.
-prophet: Prophet bietet eine einfache Möglichkeit, Zeitreihen zu modellieren und zu prognostizieren.
+<b>Python</b>: Python ist eine leistungsstarke und vielseitige Sprache, die sich gut für die Entwicklung von Datenanalyse- und Visualisierungstools eignet.  
+<b>PyQt5</b>: PyQt5 bietet eine einfache und intuitive API für die Entwicklung von GUIs.  
+<b>Matplotlib</b>: Matplotlib bietet eine Vielzahl von Funktionen für die Erstellung von ansprechenden und informativen Diagrammen und Visualisierungen.  
+<b>yfinance</b>: yfinance bietet einen einfachen Zugriff auf Finanzdaten aus einer Vielzahl von Quellen.  
+<b>pandas</b>: pandas bietet eine Vielzahl von Funktionen für die Manipulation und Analyse von Daten.  
+<b>pyqtgraph</b>: pyqtgraph bietet eine leistungsstarke und flexible API für die Erstellung von interaktiven Diagrammen und Visualisierungen.  
+<b>prophet</b>: Prophet bietet eine einfache Möglichkeit, Zeitreihen zu modellieren und zu prognostizieren.  
 
 ## Welche Herausforderungen haben wir bei der Entwicklung unserer Anwendung gemeistert?
 
-Wir haben erfolgreich mehrere Herausforderungen während der Anwendungsentwicklung bewältigt. Die Integration der Börsen-API stellte eine bedeutende Hürde dar, da die Vielfalt der Funktionen eine genaue Auseinandersetzung erforderte. Die GUI-Entwicklung erforderte Experimente, um die richtige Balance zwischen Funktionalität und Benutzerfreundlichkeit zu finden.
+Wir haben erfolgreich mehrere Herausforderungen während der Anwendungsentwicklung bewältigt. Die Integration der Börsen-API stellte eine bedeutende Hürde dar, da die Vielfalt der Funktionen eine genaue Auseinandersetzung erforderte. Die GUI-Entwicklung erforderte Experimente, um die richtige Balance zwischen Funktionalität und Benutzerfreundlichkeit zu finden.    
 
 Ein weiterer Schwerpunkt lag auf dem Abgleich der tagesaktuellen Börsen-API-Daten mit der Datenbank. Aufgrund unterschiedlicher Datenformate war die Entwicklung eines Algorithmus notwendig, der eine nahtlose Zusammenführung ermöglichte. Durch gründliche Auseinandersetzung mit den Datenformaten und einem eigens entwickelten Algorithmus konnten wir diese Herausforderung erfolgreich meistern. Dies ermöglicht uns nun die Nutzung aktueller Daten für umfassende Analysen in unserer Anwendung.
 
 ## Welche Funktionen möchten wir in Zukunft implementieren?
 
-In Zukunft planen wir die Integration folgender Funktionen in unsere Anwendung:
+In Zukunft planen wir die Integration folgender Funktionen in unsere Anwendung:  
 
 -   Unterstützung für weitere Börsen-APIs
 -   Implementierung von Threads, um das Einfrieren des Fensters zu vermeiden
@@ -82,8 +82,9 @@ Um die für das Projekt notwendigen Requirements automatisch zu installieren, mu
 6. Um sich weitere Analysen anzeigen zu lassen, können die Buttons SMA (Simple Moving Average) und TSM () ausgewählt werden. Hinweis: Der Graph wird erst angezeigt, nachdem man einen Zeitraum auswählt.
 
 ## Known Issues
-Issue: "Importing plotly failed. Interactive plots will not work."
-Solution: run pip install --upgrade plotly
-
-Issue: Wenn bereits ein Unternehmen dargestellt wurde, wird der Graph nach Auswahl eines neuen Unternehmens nicht gelöscht.
-Solution: Gewünschte Analyseverfahren auswählen und Zeitraum auswählen, sodass der Graph aktualisiert wird.
+Issue: "Importing plotly failed. Interactive plots will not work."  
+Solution: run pip install --upgrade plotly  
+  
+Issue: Wenn bereits ein Unternehmen dargestellt wurde, wird der Graph nach Auswahl eines neuen Unternehmens nicht gelöscht.  
+Solution: Gewünschte Analyseverfahren auswählen und Zeitraum auswählen, sodass der Graph aktualisiert wird.  
+  
