@@ -22,6 +22,7 @@ class StockDatabase:
         4. get_all_symbols: Liefert alle Symbole aus der Tabelle symbols
         4. getStockHistoryData: Liefert die historischen Daten einer Aktie aus der Tabelle stock_data
         5. getStockCloseData: Liefert die historischen Schlusskurse einer Aktie aus der Tabelle stock_data
+        6. delete_stockdata: Löscht alle Einträge in der Tabelle stock_data
 
         In Pycharm kann die Datenbank mit dem Plugin "DB Browser for SQLite" betrachtet werden.
     """
@@ -49,6 +50,11 @@ class StockDatabase:
     # ------------------------------------------------------------------------------------------------------------------
     # Löscht alle Einträge in der Tabelle stock_data
     def delete_stockdata(self):
+        """
+          Funktion:        delete_stockdata: Löscht alle Einträge in der Tabelle stock_data.
+
+          Rückgabewert:    Kein Rückgabewert
+          """
         try:
             self.cur.execute("DELETE FROM stock_data")
             self.conn.commit()
