@@ -1,15 +1,12 @@
-# **Aktien-App**
-
 [**Aktien-App**](#aktien-app)
-- [**Aktien-App**](#aktien-app)
-  - [Warum haben wir die Technologien verwendet, die wir verwendet haben?](#warum-haben-wir-die-technologien-verwendet-die-wir-verwendet-haben)
-  - [Wir haben diese Technologien verwendet, weil sie uns die folgenden Vorteile bieten:](#wir-haben-diese-technologien-verwendet-weil-sie-uns-die-folgenden-vorteile-bieten)
-  - [Welche Herausforderungen haben wir bei der Entwicklung unserer Anwendung gemeistert?](#welche-herausforderungen-haben-wir-bei-der-entwicklung-unserer-anwendung-gemeistert)
-  - [Welche Funktionen möchten wir in Zukunft implementieren?](#welche-funktionen-möchten-wir-in-zukunft-implementieren)
-  - [Ursprüngliche Zielsetzung der Aktien-App zu Beginn:](#ursprüngliche-zielsetzung-der-aktien-app-zu-beginn)
-  - [Installationshinweis:](#installationshinweis)
-  - [Bedienhinweis:](#bedienhinweis)
-  - [Known Issues](#known-issues)
+- [Warum haben wir die Technologien verwendet, die wir verwendet haben?](#warum-haben-wir-die-technologien-verwendet-die-wir-verwendet-haben)
+- [Wir haben diese Technologien verwendet, weil sie uns die folgenden Vorteile bieten:](#wir-haben-diese-technologien-verwendet-weil-sie-uns-die-folgenden-vorteile-bieten)
+- [Welche Herausforderungen haben wir bei der Entwicklung unserer Anwendung gemeistert?](#welche-herausforderungen-haben-wir-bei-der-entwicklung-unserer-anwendung-gemeistert)
+- [Welche Funktionen möchten wir in Zukunft implementieren?](#welche-funktionen-möchten-wir-in-zukunft-implementieren)
+- [Ursprüngliche Zielsetzung der Aktien-App zu Beginn:](#ursprüngliche-zielsetzung-der-aktien-app-zu-beginn)
+- [Installationshinweis:](#installationshinweis)
+- [Bedienhinweis:](#bedienhinweis)
+- [Known Issues](#known-issues)
 
 Unsere Aktien-App ist ein Aktienkurs-Index-Tool, das es Benutzern ermöglicht, die Kursentwicklung von Aktien verschiedener Unternehmen zu verfolgen. Die Anwendung bezieht Daten über eine kostenlose Börsen-API und speichert diese in einer Datenbank. Die Daten werden dann in einer grafischen Benutzeroberfläche (GUI) dargestellt, die es Benutzern ermöglicht, den Aktienkurs und zugehörige Informationen über die Zeit zu sehen.
 
