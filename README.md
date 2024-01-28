@@ -1,6 +1,6 @@
 # **Aktien-App**
 
-- [**Aktien-App**](#aktien-app)
+[**Aktien-App**](#aktien-app)
   - [Warum haben wir die Technologien verwendet, die wir verwendet haben?](#warum-haben-wir-die-technologien-verwendet-die-wir-verwendet-haben)
   - [Wir haben diese Technologien verwendet, weil sie uns die folgenden Vorteile bieten:](#wir-haben-diese-technologien-verwendet-weil-sie-uns-die-folgenden-vorteile-bieten)
   - [Welche Herausforderungen haben wir bei der Entwicklung unserer Anwendung gemeistert?](#welche-herausforderungen-haben-wir-bei-der-entwicklung-unserer-anwendung-gemeistert)
