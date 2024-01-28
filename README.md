@@ -1,6 +1,7 @@
 # **Aktien-App**
 
 [**Aktien-App**](#aktien-app)
+- [**Aktien-App**](#aktien-app)
   - [Warum haben wir die Technologien verwendet, die wir verwendet haben?](#warum-haben-wir-die-technologien-verwendet-die-wir-verwendet-haben)
   - [Wir haben diese Technologien verwendet, weil sie uns die folgenden Vorteile bieten:](#wir-haben-diese-technologien-verwendet-weil-sie-uns-die-folgenden-vorteile-bieten)
   - [Welche Herausforderungen haben wir bei der Entwicklung unserer Anwendung gemeistert?](#welche-herausforderungen-haben-wir-bei-der-entwicklung-unserer-anwendung-gemeistert)
@@ -61,13 +62,13 @@ In Zukunft planen wir die Integration folgender Funktionen in unsere Anwendung:
 
 ## Ursprüngliche Zielsetzung der Aktien-App zu Beginn:
 
-[x]Bezug von Daten über eine kostenlose Börsen-API
-[x]Sammeln und Speichern der Daten in einer Datenbank
-[x]Darstellung des Aktienkurses und zugehöriger Informationen über die Zeit
-[x]Auswahl verschiedener Unternehmen und deren Aktienkurse über eine grafische Benutzeroberfläche (GUI)
-[x]Möglichkeit zur Anzeige und Ausblendung von Informationen im zeitlichen Verlauf über die GUI
-[x]Anwendung verschiedener Analysemethoden über die GUI
-[]Export und Speicherung der Daten in Excel-Format über die GUI
+- [x] Bezug von Daten über eine kostenlose Börsen-API
+- [x] Sammeln und Speichern der Daten in einer Datenbank
+- [x] Darstellung des Aktienkurses und zugehöriger Informationen über die Zeit
+- [x] Auswahl verschiedener Unternehmen und deren Aktienkurse über eine grafische Benutzeroberfläche (GUI)
+- [x] Möglichkeit zur Anzeige und Ausblendung von Informationen im zeitlichen Verlauf über die GUI
+- [x] Anwendung verschiedener Analysemethoden über die GUI
+- [ ] Export und Speicherung der Daten in Excel-Format über die GUI
 
 ## Installationshinweis:
 Um die für das Projekt notwendigen Requirements automatisch zu installieren, muss in das Verzeichnis navigiert werden und in folgender Code in der Kommandozeile ausgeführt werden: pip install -r requirements.txt
