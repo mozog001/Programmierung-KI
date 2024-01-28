@@ -1,3 +1,6 @@
+## Inhaltsverzeichnis
+- [Inhaltsverzeichnis](#inhaltsverzeichnis)
+- [Beschreibung des Projektes](#beschreibung-des-projektes)
 - [Warum haben wir die Technologien verwendet, die wir verwendet haben?](#warum-haben-wir-die-technologien-verwendet-die-wir-verwendet-haben)
 - [Wir haben diese Technologien verwendet, weil sie uns die folgenden Vorteile bieten:](#wir-haben-diese-technologien-verwendet-weil-sie-uns-die-folgenden-vorteile-bieten)
 - [Organisationsstruktur unseres Python-Projekts](#organisationsstruktur-unseres-python-projekts)
@@ -8,6 +11,7 @@
 - [Bedienhinweis:](#bedienhinweis)
 - [Known Issues](#known-issues)
 
+## Beschreibung des Projektes
 Unsere Aktien-App ist ein Aktienkurs-Index-Tool, das es Benutzern ermöglicht, die Kursentwicklung von Aktien verschiedener Unternehmen zu verfolgen. Die Anwendung bezieht Daten über eine kostenlose Börsen-API und speichert diese in einer Datenbank. Die Daten werden dann in einer grafischen Benutzeroberfläche (GUI) dargestellt, die es Benutzern ermöglicht, den Aktienkurs und zugehörige Informationen über die Zeit zu sehen.  
 
 Die App wurde von uns bei GitHub veröffentlicht und ist unter https://github.com/mozog001/Programmierung-KI.git zu erreichen!  
