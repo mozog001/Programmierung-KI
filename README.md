@@ -1,6 +1,6 @@
-[**Aktien-App**]
 - [Warum haben wir die Technologien verwendet, die wir verwendet haben?](#warum-haben-wir-die-technologien-verwendet-die-wir-verwendet-haben)
 - [Wir haben diese Technologien verwendet, weil sie uns die folgenden Vorteile bieten:](#wir-haben-diese-technologien-verwendet-weil-sie-uns-die-folgenden-vorteile-bieten)
+- [Organisationsstruktur unseres Python-Projekts](#organisationsstruktur-unseres-python-projekts)
 - [Welche Herausforderungen haben wir bei der Entwicklung unserer Anwendung gemeistert?](#welche-herausforderungen-haben-wir-bei-der-entwicklung-unserer-anwendung-gemeistert)
 - [Welche Funktionen möchten wir in Zukunft implementieren?](#welche-funktionen-möchten-wir-in-zukunft-implementieren)
 - [Ursprüngliche Zielsetzung der Aktien-App zu Beginn:](#ursprüngliche-zielsetzung-der-aktien-app-zu-beginn)
@@ -40,6 +40,13 @@ Wir haben die folgenden Python-Bibliotheken, Tools und APIs verwendet, um unsere
 <b>pandas</b>: pandas bietet eine Vielzahl von Funktionen für die Manipulation und Analyse von Daten.  
 <b>pyqtgraph</b>: pyqtgraph bietet eine leistungsstarke und flexible API für die Erstellung von interaktiven Diagrammen und Visualisierungen.  
 <b>prophet</b>: Prophet bietet eine einfache Möglichkeit, Zeitreihen zu modellieren und zu prognostizieren.  
+
+
+## Organisationsstruktur unseres Python-Projekts
+
+Wir begannen mit einem Kanban-Board, um Aufgaben und Fortschritte zu verfolgen. Später wechselten wir zu einer Draw.io-Skizze, die mehr als nur eine Visualisierung war – ein abgestimmter Prototyp zur Festlegung von Arbeitspaketen.  
+  
+Wöchentliche Meetings und Messenger-Abstimmungen ermöglichten uns eine effektive Kommunikation und den Austausch von Informationen. Diese Struktur half uns, das Projekt erfolgreich abzuschließen, flexibel auf Änderungen zu reagieren und effizient zusammenzuarbeiten.
 
 ## Welche Herausforderungen haben wir bei der Entwicklung unserer Anwendung gemeistert?
 
