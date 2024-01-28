@@ -1,14 +1,19 @@
-import yfinance as yf  # https://pypi.org/project/yfinance/
+import yfinance as yf
 import pandas as pd
 from Low_Level.Database import Database as StockDB
 
 
+""" 
+Diese Skript erstellt über das Package yfinance (https://pypi.org/project/yfinance/)eine Verbindung zur 
+Yahoo Finance API (https://legal.yahoo.com/us/en/yahoo/terms/product-atos/apiforydn/index.html). 
+Es werden Aktiendaten, Unternehmensinformationen und Links von aktuellen Finanznachrichten abzurufen. 
+Die gesammelten Daten werden in einem Pandas-DataFrame gespeichert und zur Datenbank geschickt
+"""
+
 
 class StockData:
-    def __init__(self):
-        #self.stockname = stockname
+    def __init__(self):  # Definition Klassenattribute
         self.stockname = None
-        #self.stock = yf.Ticker(stockname)
         self.stock = None
         self.filepath = None
         self.start = None
@@ -23,24 +28,32 @@ class StockData:
         self.news_date = None
         self.s_news = None
         self.s_data = None
-        #  self.stockDB = StockDB.StockDatabase()
-        #  self.symbols = pd.read_csv("symbols.csv", sep=";")
-        #  self.symbols = self.symbols.rename(columns=str.lower)
-        #  self.symbols = self.symbols.to_dict('index')
-        #  stockDB.insert_symbol(self.symbols)
 
     def get_stock_data(self, stockname, start, end):
+        """
+        Ruft die historischen Aktienkurse auf. Bei der Erstellung des Ticker-Objekts muss der symbolische Stockname von
+        Yahoo-Finance (https://de.finance.yahoo.com/) angegeben werden.
+        :param stockname: Beispiel: Apple = AAPL
+        :param start: Startdatum der Aktienkurse im Format YYYY-MM-DD
+        :param end: Enddatum der Aktienkurse im Format YYYY-MM-DD
+        :return: Pandas-DataFrame mit den historischen Aktienkursen
+        """
         self.stockname = stockname
         self.stock = yf.Ticker(stockname)
         self.start = start
         self.end = end
         data = self.stock.history(start=start, end=end, actions=None)
-        data = data.reset_index()
-        data['Date'] = data['Date'].dt.date
-        data = data.set_index("Date")
+        data = data.reset_index()  # Dataframe Index Datum wird gelöst
+        data['Date'] = data['Date'].dt.date  # Anpassung Datumsformat YYYY-MM-DD ohne Uhrzeit
+        data = data.set_index("Date")  # Datum wieder als Index
         return data 
 
-    def get_stock_info(self, stockname):  # Zuordnung der Aktienkurse zum Unternehmen sowie allgemeine Informationen
+    def get_stock_info(self, stockname):
+        """
+        Allgemeine Informationen zum betrachteten Unternehmen werden abgerufen.
+        :param stockname: Symbolischer Stockname
+        :return Tuple mit den Informationen zum Unternehmen
+        """
         self.stockname = stockname
         self.stock = yf.Ticker(stockname)
         self.long_name = self.stock.info["longName"]
@@ -52,19 +65,37 @@ class StockData:
         )
         return self.long_name, self.currency, self.industry, self.headquarter
 
-    def get_stock_news(self, stockname, date):  # Links in GUI anzeigen mit Vorschau? Doppelte Links in Datenbank löschen
+    def get_stock_news(self, stockname, date):
+        """
+        Es werden aktuelle Links, die zu Finanznachrichten des betrachteten Unternehmens abgerufen. Es ist nicht
+        möglich Finanznachrichten der Vergangenheit abzurufen. Das Datum wird nur verwendet, um den Links das
+        Abrufdatum zuzuordnen. Links mit Datum werden in einem Pandas-DataFrame abgelegt
+        :param stockname: symbolischer Stockname
+        :param date: Datum des Abrufs im Format YYYY-MM-DD
+        :return: Pandas-DataFrame mit den Links zu den Finanznachrichten
+        """
         self.stockname = stockname
         self.stock = yf.Ticker(stockname)
         self.news = self.stock.news  
         self.long_name = self.stock.info["longName"]
         self.stock_news_links = [link["link"] for link in self.news]
-        self.news_date = [date] * len(self.stock_news_links)
+        self.news_date = [date] * len(self.stock_news_links)  # Jeder Link bekommt eine Zeile und ein Datum
         self.s_news = pd.DataFrame(
             ({"Date": self.news_date, "Link": self.stock_news_links, "Stock_name": self.long_name})
         )
         return self.s_news
 
     def get_data(self, data, long_name, currency, industry, headquarter, stockname):
+        """
+        Zusammenführung von Aktienkursen und Informationen und Aufbereitung für die Datenbank.
+        :param data: Pandas-DataFrame mit den historischen Aktienkursen
+        :param long_name: Unternehmensnahme
+        :param currency: Währung des Unternehmens
+        :param industry: Branche des Unternehmens
+        :param headquarter: Sitz des Unternehmens
+        :param stockname: symbolischer Stockname
+        :return: Pandas-DataFrame mit den historischen Aktienkursen und Informationen
+        """
         self.stockname = stockname
         self.s_data = pd.DataFrame(data)
         self.long_name = [long_name] * len(data)
@@ -80,22 +111,16 @@ class StockData:
 
 
 if __name__ == "__main__":
-
-    #  Initialisierung der Datenbank
     stockDB = StockDB.StockDatabase()
     stock_name = "AAPL"
     start_date = "2015-12-01"
     end_date = "2016-12-04"
-    #  with open("symbols.csv") as file:  # csv aus https://www.nasdaq.com/market-activity/stocks/screener (23.11.2023)
-    #      symbols = file.read()  # csv als Vorschläge in GUI einbauen
-    #  if stock_name not in symbols:
-    #      raise ValueError("Aktien-Symbol falsch oder nicht in Liste vorhanden.")
     stock = StockData()
     stock_data = stock.get_stock_data(stock_name, start_date, end_date)
     stock_long_name, stock_currency, stock_industry, stock_headquarter = stock.get_stock_info(stock_name)
     stock_news = stock.get_stock_news(stock_name, end_date)
-    stock_data_base = stock.get_data(stock_data, stock_long_name, stock_currency, stock_industry, stock_headquarter, stock_name)
+    stock_data_base = stock.get_data(stock_data, stock_long_name, stock_currency, stock_industry, stock_headquarter,
+                                     stock_name)
     stockDataDict = stock_data_base.to_dict('index')
     stockDB.insert_stockdata(stockDataDict)
-    #  stock_data_base.to_csv("stock_data.csv")  # Datenbank Tabelle 1
-    #  stock_news.to_csv("links.csv", index=False)  # Datenbank Tabelle 2 (Verknüpfung über Unternehmensnamen)
+
