@@ -50,7 +50,7 @@ class Analyzing_methods:
         data = pd.DataFrame(data, columns=['ds', 'y'])
         forecast = Prophet()
         forecast.fit(data)
-        future = forecast.make_future_dataframe(periods=7, freq="B")
+        future = forecast.make_future_dataframe(periods=7, freq="B")  # freq="B" für Business Days
         predict = forecast.predict(future)
         return predict[["ds", "yhat"]].tail()
     
@@ -66,6 +66,6 @@ class Analyzing_methods:
         data = pd.DataFrame(data, columns=['ds', 'y'])
         forecast = Prophet()
         forecast.fit(data)
-        future = forecast.make_future_dataframe(periods=7, freq="B")
+        future = forecast.make_future_dataframe(periods=7, freq="B")  # freq="B" für Business Days
         predict = forecast.predict(future)
         return predict[["ds", "yhat", "yhat_lower", "yhat_upper"]]
