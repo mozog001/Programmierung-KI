@@ -22,27 +22,46 @@ class StockDatabase:
         4. get_all_symbols: Liefert alle Symbole aus der Tabelle symbols
         4. getStockHistoryData: Liefert die historischen Daten einer Aktie aus der Tabelle stock_data
         5. getStockCloseData: Liefert die historischen Schlusskurse einer Aktie aus der Tabelle stock_data
+        6. delete_stockdata: Löscht alle Einträge in der Tabelle stock_data
 
         In Pycharm kann die Datenbank mit dem Plugin "DB Browser for SQLite" betrachtet werden.
     """
-
+    # ------------------------------------------------------------------------------------------------------------------
+    # Initialisierung der Datenbank und Erstellung der Tabellen
     def __init__(self):
-        # Stellt eine Verbindung zur lokalen Datenbank "StockDatabase.db her
-        self.conn = sqlite3.connect('StockDatabase.db')
-        self.cur = self.conn.cursor()
+        try:
+            # Stellt eine Verbindung zur lokalen Datenbank "StockDatabase.db her
+            self.conn = sqlite3.connect('StockDatabase.db')
+            self.cur = self.conn.cursor()
 
-        # Erstelle notwendige Tabellen "Datenmodellierung" --> stock_data, symbols
-        self.cur.execute(
-            "CREATE TABLE IF NOT EXISTS stock_data (id INTEGER PRIMARY KEY, date TEXT, open REAL, high REAL, \
-            low REAL,close REAL, volume INT, symbol TEXT ,stock_long_name TEXT , stock_currency TEXT, stock_industry TEXT ,\
-            stock_headquarter TEXT, UNIQUE(date, stock_long_name))")
+            # Erstelle notwendige Tabellen "Datenmodellierung" --> stock_data, symbols
+            self.cur.execute(
+                "CREATE TABLE IF NOT EXISTS stock_data (id INTEGER PRIMARY KEY, date TEXT, open REAL, high REAL, \
+                low REAL,close REAL, volume INT, symbol TEXT ,stock_long_name TEXT , stock_currency TEXT, \
+                stock_industry TEXT , stock_headquarter TEXT, UNIQUE(date, stock_long_name))")
 
-        self.cur.execute(
-            "CREATE TABLE IF NOT EXISTS symbols (id INTEGER PRIMARY KEY, symbol TEXT UNIQUE, name TEXT UNIQUE, \
-            country TEXT,ipo_year INTEGER, sector TEXT, industry TEXT)")
+            self.cur.execute(
+                "CREATE TABLE IF NOT EXISTS symbols (id INTEGER PRIMARY KEY, symbol TEXT UNIQUE, name TEXT UNIQUE, \
+                country TEXT,ipo_year INTEGER, sector TEXT, industry TEXT)")
 
-        self.conn.commit()
+            self.conn.commit()
+        except sqlite3.Error as error:
+            print("Error while connecting to sqlite ", error)
+    # ------------------------------------------------------------------------------------------------------------------
+    # Löscht alle Einträge in der Tabelle stock_data
+    def delete_stockdata(self):
+        """
+          Funktion:        delete_stockdata: Löscht alle Einträge in der Tabelle stock_data.
 
+          Rückgabewert:    Kein Rückgabewert
+          """
+        try:
+            self.cur.execute("DELETE FROM stock_data")
+            self.conn.commit()
+        except sqlite3.Error as error:
+            print("Failed to delete data from sqlite table ", error)
+
+    # ------------------------------------------------------------------------------------------------------------------
     # Fügt die historischen Daten einer Aktie in die Tabelle stock_data ein
     def insert_stockdata(self, data):
         """
@@ -56,21 +75,32 @@ class StockDatabase:
 
         Rückgabewert:    Kein Rückgabewert
         """
-        for DataDate, dataValues in data.items():
-            self.cur.execute(
-                "INSERT OR IGNORE INTO stock_data VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (
-                    str(DataDate), dataValues['Open'], dataValues['High'], dataValues['Low'], dataValues['Close'],
-                    dataValues['Volume'], dataValues['symbol'], dataValues['stock_long_name'],
-                    dataValues['stock_currency'], dataValues['stock_industry'], dataValues['stock_headquarter']))
-            self.conn.commit()
+        try:
+            for DataDate, dataValues in data.items():
+                self.cur.execute(
+                    "INSERT OR IGNORE INTO stock_data VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (
+                        str(DataDate), dataValues['Open'], dataValues['High'], dataValues['Low'], dataValues['Close'],
+                        dataValues['Volume'], dataValues['symbol'], dataValues['stock_long_name'],
+                        dataValues['stock_currency'], dataValues['stock_industry'], dataValues['stock_headquarter']))
+                self.conn.commit()
 
+        except sqlite3.Error as error:
+            print("Failed to insert data into sqlite table ", error)
+
+    # ------------------------------------------------------------------------------------------------------------------
     # Fügt die Symbole der Aktien in die Tabelle symbols ein
+    # - deprecated -
     def insert_symbol_(self, symbol, name, country, ipo_year, sector, industry):
-        self.cur.execute(
-            "INSERT OR IGNORE INTO symbols VALUES (NULL, ?, ?, ?, ?, ?, ?)",
-            (symbol, name, country, ipo_year, sector, industry))
-        self.conn.commit()
+        try:
+            self.cur.execute(
+                "INSERT OR IGNORE INTO symbols VALUES (NULL, ?, ?, ?, ?, ?, ?)",
+                (symbol, name, country, ipo_year, sector, industry))
+            self.conn.commit()
+        except sqlite3.Error as error:
+            print("Failed to insert data into sqlite table ", error)
 
+    # ------------------------------------------------------------------------------------------------------------------
+    # Fügt die Symbole der Aktien in die Tabelle symbols ein
     def insert_symbol(self, data):
         """
         Funktion:        insert_symbol: Fügt die Symbole der Aktien in die Tabelle symbols ein.
@@ -82,13 +112,17 @@ class StockDatabase:
 
         Rückgabewert:    Kein Rückgabewert
         """
-        for dataValues in data.values():
-            self.cur.execute(
-                "INSERT OR IGNORE INTO symbols VALUES (NULL, ?, ?, ?, ?, ?, ?)", (
-                    dataValues['symbol'], dataValues['name'], dataValues['country'], dataValues['ipo year'],
-                    dataValues['sector'], dataValues['industry']))
-            self.conn.commit()
+        try:
+            for dataValues in data.values():
+                self.cur.execute(
+                    "INSERT OR IGNORE INTO symbols VALUES (NULL, ?, ?, ?, ?, ?, ?)", (
+                        dataValues['symbol'], dataValues['name'], dataValues['country'], dataValues['ipo year'],
+                        dataValues['sector'], dataValues['industry']))
+                self.conn.commit()
+        except sqlite3.Error as error:
+            print("Failed to insert data into sqlite table ", error)
 
+    # ------------------------------------------------------------------------------------------------------------------
     def getStockHistoryData(self, symbol, beginDate="1900-01-01", endDate=str(sqlite3.Date.today())):
         """
         Funktion:        getStockHistoryData: Liefert die historischen Daten einer Aktie aus der Tabelle stock_data
@@ -116,12 +150,16 @@ class StockDatabase:
             # Check date format  YYYY-MM-DD
             #if re.search(r'^\d{4}-\d{2}-\d{2}$', beginDate) and re.search(r'^\d{4}-\d{2}-\d{2}$', endDate):
 
+            try:
                 self.cur.execute(
                     "SELECT * FROM stock_data WHERE symbol = ? and  Date >= ? and Date <= ? ORDER BY Date ASC",
                     [symbol, beginDate, endDate])
 
                 rows = self.cur.fetchall()
                 retValue = rows
+
+            except sqlite3.Error as error:
+                print("Failed to select data from sqlite table ", error)
 
             #else:  # Date format not correct
                 #raise ValueError("Date format not correct, expected YYYY-MM-DD")
@@ -130,14 +168,18 @@ class StockDatabase:
             raise TypeError("String expected: beginDate, endDate")
 
         return retValue
-
+    # ------------------------------------------------------------------------------------------------------------------
     def getStockCloseData(self, symbol):
-        self.cur.execute(
-            "SELECT Date, close FROM stock_data WHERE symbol = ? ORDER BY Date ASC", [symbol])
+        rows = []
+        try:
+            self.cur.execute(
+                "SELECT Date, close FROM stock_data WHERE symbol = ? ORDER BY Date ASC", [symbol])
+            rows = self.cur.fetchall()
+        except sqlite3.Error as error:
+            print("Failed to select data from sqlite table ", error)
 
-        rows = self.cur.fetchall()
         return rows
-
+    # ------------------------------------------------------------------------------------------------------------------
     # Sucht nach einem Symbol in der Tabelle symbols, es wird eine Liste mit den gefundenen Symbolen zurückgegeben
     def search_symbol(self, name=""):
         """
@@ -148,18 +190,38 @@ class StockDatabase:
 
         Rückgabewert:    Liste der gefundenen Symbole. Die Liste ist leer, wenn keine Symbole gefunden wurden.
         """
-        self.cur.execute(
-            "SELECT * FROM symbols WHERE name like ?", [str("%" + name + "%")])
+        rows = []
+        try:
+            self.cur.execute(
+                "SELECT * FROM symbols WHERE name like ?", [str("%" + name + "%")])
 
-        rows = self.cur.fetchall()
+            rows = self.cur.fetchall()
+
+        except sqlite3.Error as error:
+            print("Failed to select data from sqlite table ", error)
         return rows
-
+    # ------------------------------------------------------------------------------------------------------------------
     def get_all_symbols(self):
-        self.cur.execute(
-            "SELECT * FROM symbols")
+        """
+        Funktion:        get_all_symbols: Es wird eine Liste mit allen Symbolen zurückgegeben.
 
-        rows = self.cur.fetchall()
+
+        Rückgabewert:    Liste aller in der Tabelle gespeicherten Symbole. Die Liste ist leer, wenn keine Symbole
+                         gefunden wurden.
+        """
+        rows = []
+        try:
+            self.cur.execute(
+                "SELECT * FROM symbols")
+
+            rows = self.cur.fetchall()
+        except sqlite3.Error as error:
+            print("Failed to select data from sqlite table ", error)
+
         return rows
-
+    # ------------------------------------------------------------------------------------------------------------------
     def __del__(self):
-        self.conn.close()
+        try:
+            self.conn.close()
+        except sqlite3.Error as error:
+            print("Failed to close database connection ", error)

@@ -2,12 +2,11 @@ import yfinance as yf
 import pandas as pd
 from Low_Level.Database import Database as StockDB
 
-
 """ 
 Diese Skript erstellt über das Package yfinance (https://pypi.org/project/yfinance/)eine Verbindung zur 
 Yahoo Finance API (https://legal.yahoo.com/us/en/yahoo/terms/product-atos/apiforydn/index.html). 
-Es werden Aktiendaten, Unternehmensinformationen und Links von aktuellen Finanznachrichten abzurufen. 
-Die gesammelten Daten werden in einem Pandas-DataFrame gespeichert und zur Datenbank geschickt
+Es werden Aktiendaten, Unternehmensinformationen und Links von aktuellen Finanznachrichten zum abgefragten 
+Unternehmen abzurufen. Die gesammelten Daten werden in einem Pandas-DataFrame gespeichert und zur Datenbank geschickt
 """
 
 
@@ -15,7 +14,6 @@ class StockData:
     def __init__(self):  # Definition Klassenattribute
         self.stockname = None
         self.stock = None
-        self.filepath = None
         self.start = None
         self.end = None
         self.symbol = None
@@ -38,15 +36,18 @@ class StockData:
         :param end: Enddatum der Aktienkurse im Format YYYY-MM-DD
         :return: Pandas-DataFrame mit den historischen Aktienkursen
         """
-        self.stockname = stockname
-        self.stock = yf.Ticker(stockname)
-        self.start = start
-        self.end = end
-        data = self.stock.history(start=start, end=end, actions=None)
-        data = data.reset_index()  # Dataframe Index Datum wird gelöst
-        data['Date'] = data['Date'].dt.date  # Anpassung Datumsformat YYYY-MM-DD ohne Uhrzeit
-        data = data.set_index("Date")  # Datum wieder als Index
-        return data 
+        try:
+            self.stockname = stockname
+            self.stock = yf.Ticker(stockname)
+            self.start = start
+            self.end = end
+            data = self.stock.history(start=start, end=end, actions=None)
+            data = data.reset_index()  # Dataframe Index Datum wird gelöst
+            data['Date'] = data['Date'].dt.date  # Anpassung Datumsformat YYYY-MM-DD ohne Uhrzeit
+            data = data.set_index("Date")  # Datum wieder als Index
+            return data
+        except Exception as e:
+            print(f"Ticker-Symbol konnte nicht erstellt werden {e}")
 
     def get_stock_info(self, stockname):
         """
@@ -54,16 +55,19 @@ class StockData:
         :param stockname: Symbolischer Stockname
         :return Tuple mit den Informationen zum Unternehmen
         """
-        self.stockname = stockname
-        self.stock = yf.Ticker(stockname)
-        self.long_name = self.stock.info["longName"]
-        self.currency = self.stock.info["currency"]
-        self.industry = f'{self.stock.info["industry"]} {self.stock.info["sector"]}'
-        self.headquarter = (
-            f'{self.stock.info["address1"]} {self.stock.info["zip"]} '
-            f'{self.stock.info["city"]} {self.stock.info["country"]}'
-        )
-        return self.long_name, self.currency, self.industry, self.headquarter
+        try:
+            self.stockname = stockname
+            self.stock = yf.Ticker(stockname)
+            self.long_name = self.stock.info["longName"]
+            self.currency = self.stock.info["currency"]
+            self.industry = f'{self.stock.info["industry"]} {self.stock.info["sector"]}'
+            self.headquarter = (
+                f'{self.stock.info["address1"]} {self.stock.info["zip"]} '
+                f'{self.stock.info["city"]} {self.stock.info["country"]}'
+            )
+            return self.long_name, self.currency, self.industry, self.headquarter
+        except Exception as e:
+            print(f"Unternehmensinformationen konnten nicht abgerufen werden {e}")
 
     def get_stock_news(self, stockname, date):
         """
@@ -74,16 +78,19 @@ class StockData:
         :param date: Datum des Abrufs im Format YYYY-MM-DD
         :return: Pandas-DataFrame mit den Links zu den Finanznachrichten
         """
-        self.stockname = stockname
-        self.stock = yf.Ticker(stockname)
-        self.news = self.stock.news  
-        self.long_name = self.stock.info["longName"]
-        self.stock_news_links = [link["link"] for link in self.news]
-        self.news_date = [date] * len(self.stock_news_links)  # Jeder Link bekommt eine Zeile und ein Datum
-        self.s_news = pd.DataFrame(
-            ({"Date": self.news_date, "Link": self.stock_news_links, "Stock_name": self.long_name})
-        )
-        return self.s_news
+        try:
+            self.stockname = stockname
+            self.stock = yf.Ticker(stockname)
+            self.news = self.stock.news
+            self.long_name = self.stock.info["longName"]
+            self.stock_news_links = [link["link"] for link in self.news]
+            self.news_date = [date] * len(self.stock_news_links)  # Jeder Link bekommt eine Zeile und ein Datum
+            self.s_news = pd.DataFrame(
+                ({"Date": self.news_date, "Link": self.stock_news_links, "Stock_name": self.long_name})
+            )
+            return self.s_news
+        except Exception as e:
+            print(f"Finanznachrichten konnten nicht abgerufen werden {e}")
 
     def get_data(self, data, long_name, currency, industry, headquarter, stockname):
         """
@@ -123,4 +130,3 @@ if __name__ == "__main__":
                                      stock_name)
     stockDataDict = stock_data_base.to_dict('index')
     stockDB.insert_stockdata(stockDataDict)
-
