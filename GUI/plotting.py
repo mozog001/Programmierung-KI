@@ -290,7 +290,7 @@ class GUI_Window(QtWidgets.QMainWindow):
             invent_year = str(Stock_tupple[4])
             industry = Stock_tupple[5]
             service = Stock_tupple[6]
-            Stock_Information = 'Invent Country: ' + (invent_country) + '\n' + 'Invent Year: ' + (invent_year) + '\n' + 'Industry: ' + (industry) + '\n' + 'Service: ' + (service)
+            Stock_Information = 'Invent Country: ' + (invent_country) + '\n' + 'Stock Year: ' + (invent_year) + '\n' + 'Industry: ' + (industry) + '\n' + 'Service: ' + (service)
             self.info_label.setText(Stock_Information)
             
             date_today = datetime.today()
@@ -495,7 +495,6 @@ class GUI_Window(QtWidgets.QMainWindow):
             if self.Analyse_Button_Regression.isChecked():
                 if len(temp_tuppel) >= 2:
                     regression_output = an.Analyzing_methods().get_forecast(temp_tuppel)
-                    print(regression_output)
                     self.regression_date = list(regression_output['ds'])
                     self.yhat_avg = list(regression_output['yhat'])
                     self.qGraph.plott_REGRESSION_graph(self.regression_date, self.yhat_avg)
